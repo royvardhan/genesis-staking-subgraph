@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { BigInt, Address } from "@graphprotocol/graph-ts";
 import {
   GenesisStaking,
   Deposit as DepositEvent,
@@ -18,12 +18,26 @@ import {
   VPNDLocked24H,
 } from "../generated/schema";
 
+function getIdFromEventParams(txNonce: BigInt, address: Address): string {
+  return txNonce.toHexString() + address.toHexString();
+}
+
+function check24HTimeframe(timestamp: number): boolean {
+  let timenow = Math.round(Date.now() / 1000);
+  let oneDayInUnix = 86400;
+  if (timenow - timestamp >= oneDayInUnix) {
+    return true;
+  } else return false;
+}
+
 export function handleDeposit(event: DepositEvent): void {
   let user = User.load(event.params.account.toHexString());
   if (!user) {
     user = new User(event.params.account.toHexString());
   }
-  let deposit = new Deposit(event.transaction.hash.toString());
+  let deposit = new Deposit(
+    getIdFromEventParams(event.transaction.nonce, event.address)
+  );
   deposit.account = event.params.account.toHexString();
   deposit.amount = event.params.amount.toString();
   deposit.blockNumber = event.block.number;
@@ -45,6 +59,18 @@ export function handleDeposit(event: DepositEvent): void {
       event.params.amount
     );
   }
+
+  let vpndLocked24H = VPNDLocked24H.load(
+    getIdFromEventParams(event.transaction.nonce, event.address)
+  );
+  if (!vpndLocked24H) {
+    vpndLocked24H = new VPNDLocked24H(
+      getIdFromEventParams(event.transaction.nonce, event.address)
+    );
+    vpndLocked24H.blockTimestamp = event.block.timestamp;
+    vpndLocked24H.amount = event.params.amount;
+  }
+  const is24HElapsed = check24HTimeframe;
 }
 
 export function handleWithdraw(event: WithdrawEvent): void {
@@ -52,7 +78,9 @@ export function handleWithdraw(event: WithdrawEvent): void {
   if (!user) {
     user = new User(event.params.account.toHexString());
   }
-  let withdraw = new Withdraw(event.transaction.hash.toString());
+  let withdraw = new Withdraw(
+    getIdFromEventParams(event.transaction.nonce, event.address)
+  );
   withdraw.account = event.params.account.toHexString();
   withdraw.amount = event.params.amount.toString();
   withdraw.blockNumber = event.block.number;

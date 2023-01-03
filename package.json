@@ -12,11 +12,9 @@
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.35.0",
-    "@graphprotocol/graph-ts": "0.28.1",
-    "uuid": "^9.0.0"
+    "@graphprotocol/graph-ts": "0.28.1"
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.0",
     "matchstick-as": "0.5.0"
   }
 }
