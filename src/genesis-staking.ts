@@ -1,89 +1,69 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt } from "@graphprotocol/graph-ts";
 import {
   GenesisStaking,
+  Deposit as DepositEvent,
+  FeeCollectorUpdated as FeeCollectorUpdatedEvent,
+  OwnershipHandoverCanceled as OwnershipHandoverCanceledEvent,
+  OwnershipHandoverRequested as OwnershipHandoverRequestedEvent,
+  OwnershipTransferred as OwnershipTransferredEvent,
+  VAPEUpdated as VAPEUpdatedEvent,
+  Withdraw as WithdrawEvent,
+} from "../generated/GenesisStaking/GenesisStaking";
+import {
   Deposit,
+  Withdraw,
   FeeCollectorUpdated,
-  OwnershipHandoverCanceled,
-  OwnershipHandoverRequested,
-  OwnershipTransferred,
-  VAPEUpdated,
-  Withdraw
-} from "../generated/GenesisStaking/GenesisStaking"
-import { ExampleEntity } from "../generated/schema"
+  VapeUpdated,
+} from "../generated/schema";
 
-export function handleDeposit(event: Deposit): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
-
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.account = event.params.account
-  entity.amount = event.params.amount
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.burnWallet(...)
-  // - contract.calculateClaimFee(...)
-  // - contract.calculateDepositFee(...)
-  // - contract.claimsEndAt(...)
-  // - contract.claimsStartAt(...)
-  // - contract.deployment(...)
-  // - contract.depositsEndAt(...)
-  // - contract.depositsStartAt(...)
-  // - contract.feeCollector(...)
-  // - contract.owner(...)
-  // - contract.ownershipHandoverExpiresAt(...)
-  // - contract.ownershipHandoverValidFor(...)
-  // - contract.stratosphere(...)
-  // - contract.tvl(...)
-  // - contract.vape(...)
-  // - contract.vapeToDistribute(...)
-  // - contract.vpnd(...)
-  // - contract.vpndAccountBalance(...)
-  // - contract.withdrawalsEndAt(...)
-  // - contract.withdrawalsStartAt(...)
+export function handleDeposit(event: DepositEvent): void {
+  // let depositEvent = new Deposit(
+  //   event.transaction.hash.concatI32(event.logIndex.toI32())
+  // );
+  let depositEvent = new Deposit(event.transaction.hash.toHexString());
+  depositEvent.account = event.params.account;
+  depositEvent.amount = event.params.amount;
+  depositEvent.blockNumber = event.block.number;
+  depositEvent.blockTimestamp = event.block.timestamp;
+  depositEvent.transactionHash = event.transaction.hash;
+  depositEvent.save();
 }
 
-export function handleFeeCollectorUpdated(event: FeeCollectorUpdated): void {}
+export function handleFeeCollectorUpdated(
+  event: FeeCollectorUpdatedEvent
+): void {
+  let feeCollectorUpdatedEvent = new FeeCollectorUpdated(
+    event.transaction.hash.toHexString()
+  );
+  feeCollectorUpdatedEvent.fromFeeCollector = event.params.oldFeeCollector;
+  feeCollectorUpdatedEvent.toFeeCollector = event.params.newFeeCollector;
+  feeCollectorUpdatedEvent.blockNumber = event.block.number;
+  feeCollectorUpdatedEvent.blockTimestamp = event.block.timestamp;
+  feeCollectorUpdatedEvent.transactionHash = event.transaction.hash;
+  feeCollectorUpdatedEvent.save();
+}
+
+export function handleWithdraw(event: WithdrawEvent): void {
+  let withdrawEvent = new Withdraw(event.transaction.hash.toHexString());
+  withdrawEvent.account = event.params.account;
+  withdrawEvent.amount = event.params.amount;
+  withdrawEvent.blockNumber = event.block.number;
+  withdrawEvent.blockTimestamp = event.block.timestamp;
+  withdrawEvent.transactionHash = event.transaction.hash;
+
+  withdrawEvent.save();
+}
 
 export function handleOwnershipHandoverCanceled(
-  event: OwnershipHandoverCanceled
+  event: OwnershipHandoverCanceledEvent
 ): void {}
 
 export function handleOwnershipHandoverRequested(
-  event: OwnershipHandoverRequested
+  event: OwnershipHandoverRequestedEvent
 ): void {}
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleOwnershipTransferred(
+  event: OwnershipTransferredEvent
+): void {}
 
-export function handleVAPEUpdated(event: VAPEUpdated): void {}
-
-export function handleWithdraw(event: Withdraw): void {}
+export function handleVAPEUpdated(event: VAPEUpdatedEvent): void {}

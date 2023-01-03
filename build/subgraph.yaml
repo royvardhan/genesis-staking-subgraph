@@ -1,6 +1,6 @@
 specVersion: 0.0.4
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: GenesisStaking
@@ -22,7 +22,7 @@ dataSources:
         - Withdraw
       abis:
         - name: GenesisStaking
-          file: ./abis/GenesisStaking.json
+          file: GenesisStaking/abis/GenesisStaking.json
       eventHandlers:
         - event: Deposit(indexed address,uint256)
           handler: handleDeposit
@@ -38,4 +38,4 @@ dataSources:
           handler: handleVAPEUpdated
         - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
-      file: ./src/genesis-staking.ts
+      file: GenesisStaking/GenesisStaking.wasm
