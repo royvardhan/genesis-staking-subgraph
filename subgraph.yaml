@@ -1,0 +1,41 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: GenesisStaking
+    network: mainnet
+    source:
+      address: "0x8c6dD8b21303a8bC0a6F18F82e3b7c07cCc0C213"
+      abi: GenesisStaking
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Deposit
+        - FeeCollectorUpdated
+        - OwnershipHandoverCanceled
+        - OwnershipHandoverRequested
+        - OwnershipTransferred
+        - VAPEUpdated
+        - Withdraw
+      abis:
+        - name: GenesisStaking
+          file: ./abis/GenesisStaking.json
+      eventHandlers:
+        - event: Deposit(indexed address,uint256)
+          handler: handleDeposit
+        - event: FeeCollectorUpdated(address,address)
+          handler: handleFeeCollectorUpdated
+        - event: OwnershipHandoverCanceled(indexed address)
+          handler: handleOwnershipHandoverCanceled
+        - event: OwnershipHandoverRequested(indexed address)
+          handler: handleOwnershipHandoverRequested
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: VAPEUpdated(address)
+          handler: handleVAPEUpdated
+        - event: Withdraw(indexed address,uint256)
+          handler: handleWithdraw
+      file: ./src/genesis-staking.ts
