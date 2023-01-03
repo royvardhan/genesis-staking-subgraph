@@ -13,27 +13,60 @@ import {
   Deposit,
   Withdraw,
   FeeCollectorUpdated,
-  VapeUpdated,
+  User,
+  CumulativeVPNDDeposited,
+  VPNDLocked24H,
 } from "../generated/schema";
 
 export function handleDeposit(event: DepositEvent): void {
-  // let depositEvent = new Deposit(
-  //   event.transaction.hash.concatI32(event.logIndex.toI32())
-  // );
-  let depositEvent = new Deposit(event.transaction.hash.toHexString());
-  depositEvent.account = event.params.account;
-  depositEvent.amount = event.params.amount;
-  depositEvent.blockNumber = event.block.number;
-  depositEvent.blockTimestamp = event.block.timestamp;
-  depositEvent.transactionHash = event.transaction.hash;
-  depositEvent.save();
+  let user = User.load(event.params.account.toHexString());
+  if (!user) {
+    user = new User(event.params.account.toHexString());
+  }
+  let deposit = new Deposit(event.transaction.hash.toString());
+  deposit.account = event.params.account.toHexString();
+  deposit.amount = event.params.amount.toString();
+  deposit.blockNumber = event.block.number;
+  deposit.blockTimestamp = event.block.timestamp;
+  deposit.transactionHash = event.transaction.hash;
+  deposit.save();
+  user.save();
+
+  let cumulativeVPNDDeposited = CumulativeVPNDDeposited.load(
+    "CumulativeVPNDDeposited"
+  );
+  if (!cumulativeVPNDDeposited) {
+    let cumulativeVPNDDeposited = new CumulativeVPNDDeposited(
+      "CumulativeVPNDDeposited"
+    );
+    cumulativeVPNDDeposited.amount = event.params.amount;
+  } else {
+    cumulativeVPNDDeposited.amount = cumulativeVPNDDeposited.amount.plus(
+      event.params.amount
+    );
+  }
+}
+
+export function handleWithdraw(event: WithdrawEvent): void {
+  let user = User.load(event.params.account.toHexString());
+  if (!user) {
+    user = new User(event.params.account.toHexString());
+  }
+  let withdraw = new Withdraw(event.transaction.hash.toString());
+  withdraw.account = event.params.account.toHexString();
+  withdraw.amount = event.params.amount.toString();
+  withdraw.blockNumber = event.block.number;
+  withdraw.blockTimestamp = event.block.timestamp;
+  withdraw.transactionHash = event.transaction.hash;
+  withdraw.save();
+  user.save();
 }
 
 export function handleFeeCollectorUpdated(
   event: FeeCollectorUpdatedEvent
 ): void {
   let feeCollectorUpdatedEvent = new FeeCollectorUpdated(
-    event.transaction.hash.toHexString()
+    event.transaction.hash.toString()
   );
   feeCollectorUpdatedEvent.fromFeeCollector = event.params.oldFeeCollector;
   feeCollectorUpdatedEvent.toFeeCollector = event.params.newFeeCollector;
@@ -41,17 +74,6 @@ export function handleFeeCollectorUpdated(
   feeCollectorUpdatedEvent.blockTimestamp = event.block.timestamp;
   feeCollectorUpdatedEvent.transactionHash = event.transaction.hash;
   feeCollectorUpdatedEvent.save();
-}
-
-export function handleWithdraw(event: WithdrawEvent): void {
-  let withdrawEvent = new Withdraw(event.transaction.hash.toHexString());
-  withdrawEvent.account = event.params.account;
-  withdrawEvent.amount = event.params.amount;
-  withdrawEvent.blockNumber = event.block.number;
-  withdrawEvent.blockTimestamp = event.block.timestamp;
-  withdrawEvent.transactionHash = event.transaction.hash;
-
-  withdrawEvent.save();
 }
 
 export function handleOwnershipHandoverCanceled(

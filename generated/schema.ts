@@ -42,22 +42,22 @@ export class Deposit extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get account(): Bytes {
+  get account(): string {
     let value = this.get("account");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
   }
 
-  get amount(): BigInt {
+  get amount(): string {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toString();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: string) {
+    this.set("amount", Value.fromString(value));
   }
 
   get blockNumber(): BigInt {
@@ -119,22 +119,22 @@ export class Withdraw extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get account(): Bytes {
+  get account(): string {
     let value = this.get("account");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
   }
 
-  get amount(): BigInt {
+  get amount(): string {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toString();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: string) {
+    this.set("amount", Value.fromString(value));
   }
 
   get blockNumber(): BigInt {
@@ -162,6 +162,56 @@ export class Withdraw extends Entity {
 
   set transactionHash(value: Bytes) {
     this.set("transactionHash", Value.fromBytes(value));
+  }
+}
+
+export class User extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save User entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type User must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("User", id.toString(), this);
+    }
+  }
+
+  static load(id: string): User | null {
+    return changetype<User | null>(store.get("User", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get vpndLocked(): Array<string> {
+    let value = this.get("vpndLocked");
+    return value!.toStringArray();
+  }
+
+  set vpndLocked(value: Array<string>) {
+    this.set("vpndLocked", Value.fromStringArray(value));
+  }
+
+  get vapeWithdrawn(): Array<string> {
+    let value = this.get("vapeWithdrawn");
+    return value!.toStringArray();
+  }
+
+  set vapeWithdrawn(value: Array<string>) {
+    this.set("vapeWithdrawn", Value.fromStringArray(value));
   }
 }
 
@@ -244,7 +294,7 @@ export class FeeCollectorUpdated extends Entity {
   }
 }
 
-export class VapeUpdated extends Entity {
+export class VAPEUpdated extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -252,18 +302,18 @@ export class VapeUpdated extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save VapeUpdated entity without an ID");
+    assert(id != null, "Cannot save VAPEUpdated entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type VapeUpdated must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type VAPEUpdated must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("VapeUpdated", id.toString(), this);
+      store.set("VAPEUpdated", id.toString(), this);
     }
   }
 
-  static load(id: string): VapeUpdated | null {
-    return changetype<VapeUpdated | null>(store.get("VapeUpdated", id));
+  static load(id: string): VAPEUpdated | null {
+    return changetype<VAPEUpdated | null>(store.get("VAPEUpdated", id));
   }
 
   get id(): string {
@@ -284,13 +334,13 @@ export class VapeUpdated extends Entity {
     this.set("vapeAddress", Value.fromBytes(value));
   }
 
-  get owner(): Bytes {
-    let value = this.get("owner");
+  get by(): Bytes {
+    let value = this.get("by");
     return value!.toBytes();
   }
 
-  set owner(value: Bytes) {
-    this.set("owner", Value.fromBytes(value));
+  set by(value: Bytes) {
+    this.set("by", Value.fromBytes(value));
   }
 
   get blockTimestamp(): BigInt {
@@ -312,7 +362,7 @@ export class VapeUpdated extends Entity {
   }
 }
 
-export class VapeLocked24H extends Entity {
+export class VPNDLocked24H extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -320,18 +370,18 @@ export class VapeLocked24H extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save VapeLocked24H entity without an ID");
+    assert(id != null, "Cannot save VPNDLocked24H entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type VapeLocked24H must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type VPNDLocked24H must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("VapeLocked24H", id.toString(), this);
+      store.set("VPNDLocked24H", id.toString(), this);
     }
   }
 
-  static load(id: string): VapeLocked24H | null {
-    return changetype<VapeLocked24H | null>(store.get("VapeLocked24H", id));
+  static load(id: string): VPNDLocked24H | null {
+    return changetype<VPNDLocked24H | null>(store.get("VPNDLocked24H", id));
   }
 
   get id(): string {
@@ -350,6 +400,52 @@ export class VapeLocked24H extends Entity {
 
   set blockTimestamp(value: BigInt) {
     this.set("blockTimestamp", Value.fromBigInt(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+}
+
+export class CumulativeVPNDDeposited extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save CumulativeVPNDDeposited entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type CumulativeVPNDDeposited must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("CumulativeVPNDDeposited", id.toString(), this);
+    }
+  }
+
+  static load(id: string): CumulativeVPNDDeposited | null {
+    return changetype<CumulativeVPNDDeposited | null>(
+      store.get("CumulativeVPNDDeposited", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get amount(): BigInt {
