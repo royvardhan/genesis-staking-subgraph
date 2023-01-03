@@ -41,7 +41,7 @@ type VAPEUpdated @entity(immutable: true) {
 
 type VPNDLocked24H @entity {
   id: String!
-  blockTimestamp: BigInt!
+  lastLock: BigInt!
   amount: BigInt!
 }
 

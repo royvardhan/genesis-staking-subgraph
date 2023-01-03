@@ -22,7 +22,7 @@ function getIdFromEventParams(txNonce: BigInt, address: Address): string {
   return txNonce.toHexString() + address.toHexString();
 }
 
-function check24HTimeframe(timestamp: number): boolean {
+function check24HTimeframe(timestamp: any): boolean {
   let timenow = Math.round(Date.now() / 1000);
   let oneDayInUnix = 86400;
   if (timenow - timestamp >= oneDayInUnix) {
@@ -60,17 +60,19 @@ export function handleDeposit(event: DepositEvent): void {
     );
   }
 
-  let vpndLocked24H = VPNDLocked24H.load(
-    getIdFromEventParams(event.transaction.nonce, event.address)
-  );
+  let vpndLocked24H = VPNDLocked24H.load("VPNDLocked24H");
   if (!vpndLocked24H) {
-    vpndLocked24H = new VPNDLocked24H(
-      getIdFromEventParams(event.transaction.nonce, event.address)
-    );
-    vpndLocked24H.blockTimestamp = event.block.timestamp;
+    vpndLocked24H = new VPNDLocked24H("VPNDLocked24H");
+    vpndLocked24H.lastLock = event.block.timestamp;
     vpndLocked24H.amount = event.params.amount;
   }
-  const is24HElapsed = check24HTimeframe;
+  const is24HElapsed = check24HTimeframe(vpndLocked24H.lastLock);
+  if (is24HElapsed) {
+    vpndLocked24H.lastLock = event.block.timestamp;
+    vpndLocked24H.amount = event.params.amount;
+  } else vpndLocked24H.lastLock = event.block.timestamp;
+  vpndLocked24H.amount = vpndLocked24H.amount.plus(event.params.amount);
+  vpndLocked24H.save();
 }
 
 export function handleWithdraw(event: WithdrawEvent): void {

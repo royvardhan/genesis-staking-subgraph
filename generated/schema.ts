@@ -393,13 +393,13 @@ export class VPNDLocked24H extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get blockTimestamp(): BigInt {
-    let value = this.get("blockTimestamp");
+  get lastLock(): BigInt {
+    let value = this.get("lastLock");
     return value!.toBigInt();
   }
 
-  set blockTimestamp(value: BigInt) {
-    this.set("blockTimestamp", Value.fromBigInt(value));
+  set lastLock(value: BigInt) {
+    this.set("lastLock", Value.fromBigInt(value));
   }
 
   get amount(): BigInt {
