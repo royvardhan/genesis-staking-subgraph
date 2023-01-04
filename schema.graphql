@@ -54,3 +54,8 @@ type CumulativeVPNDWithdrawn @entity {
   id: ID!
   amount: BigInt!
 }
+
+type CumulativeVAPEClaimed @entity {
+  id: ID!
+  amount: BigInt!
+}

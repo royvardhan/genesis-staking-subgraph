@@ -17,7 +17,7 @@ type Withdraw @entity(immutable: true) {
 }
 
 type User @entity {
-  id: Bytes!
+  id: Bytes! #id is address
   vpndLocked: BigInt!
   vapeClaimed: BigInt!
   vpndWithdrawn: BigInt!
@@ -39,14 +39,6 @@ type FeeCollectorUpdated @entity {
   transactionHash: Bytes!
 }
 
-type VAPEUpdated @entity(immutable: true) {
-  id: ID!
-  vapeAddress: Bytes!
-  by: Bytes!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
 type VPNDLocked24H @entity {
   id: String!
   lastLock: BigInt!
@@ -59,6 +51,11 @@ type CumulativeVPNDDeposited @entity {
 }
 
 type CumulativeVPNDWithdrawn @entity {
+  id: ID!
+  amount: BigInt!
+}
+
+type CumulativeVAPEClaimed @entity {
   id: ID!
   amount: BigInt!
 }

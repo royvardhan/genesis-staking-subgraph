@@ -25,10 +25,10 @@ function getIdFromEventParams(txNonce: BigInt, address: Address): string {
   return txNonce.toHexString() + address.toHexString();
 }
 
-function check24HTimeframe(timestamp: any): boolean {
-  let timenow = Math.round(Date.now() / 1000);
-  let oneDayInUnix = 86400;
-  if (timenow - timestamp >= oneDayInUnix) {
+function check24HTimeframe(timestamp: BigInt): boolean {
+  let timenow = new BigInt(i32(Math.round(i32(Date.now() / 1000))));
+  let oneDayInUnix = new BigInt(86400);
+  if (timenow.minus(timestamp) >= oneDayInUnix) {
     return true;
   } else return false;
 }
