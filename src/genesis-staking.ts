@@ -28,7 +28,7 @@ function getIdFromEventParams(txNonce: BigInt, address: Address): string {
 function check24HTimeframe(timestamp: BigInt): boolean {
   let timenow = new BigInt(i32(Math.round(i32(Date.now() / 1000))));
   let oneDayInUnix = new BigInt(86400);
-  if (timenow.minus(timestamp) >= oneDayInUnix) {
+  if (timenow.minus(timestamp).gt(oneDayInUnix)) {
     return true;
   } else return false;
 }
