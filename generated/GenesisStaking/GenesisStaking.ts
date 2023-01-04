@@ -10,6 +10,28 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class Claim extends ethereum.Event {
+  get params(): Claim__Params {
+    return new Claim__Params(this);
+  }
+}
+
+export class Claim__Params {
+  _event: Claim;
+
+  constructor(event: Claim) {
+    this._event = event;
+  }
+
+  get account(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class Deposit extends ethereum.Event {
   get params(): Deposit__Params {
     return new Deposit__Params(this);

@@ -1,18 +1,50 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "_vpnd", "type": "address" },
-      { "internalType": "address", "name": "_stratosphere", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_vpnd",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_stratosphere",
+        "type": "address"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
-  { "inputs": [], "name": "GenesisStaking__ClaimsDisabled", "type": "error" },
-  { "inputs": [], "name": "GenesisStaking__DepositsDisabled", "type": "error" },
-  { "inputs": [], "name": "GenesisStaking__InvalidAddress", "type": "error" },
-  { "inputs": [], "name": "GenesisStaking__InvalidAmount", "type": "error" },
-  { "inputs": [], "name": "GenesisStaking__NoVAPEToClaim", "type": "error" },
-  { "inputs": [], "name": "GenesisStaking__NoVPNDToWithdraw", "type": "error" },
+  {
+    "inputs": [],
+    "name": "GenesisStaking__ClaimsDisabled",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "GenesisStaking__DepositsDisabled",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "GenesisStaking__InvalidAddress",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "GenesisStaking__InvalidAmount",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "GenesisStaking__NoVAPEToClaim",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "GenesisStaking__NoVPNDToWithdraw",
+    "type": "error"
+  },
   {
     "inputs": [],
     "name": "GenesisStaking__NotEnoughVPNDToDeposit",
@@ -33,9 +65,40 @@
     "name": "GenesisStaking__WithdrawalsDisabled",
     "type": "error"
   },
-  { "inputs": [], "name": "NewOwnerIsZeroAddress", "type": "error" },
-  { "inputs": [], "name": "NoHandoverRequest", "type": "error" },
-  { "inputs": [], "name": "Unauthorized", "type": "error" },
+  {
+    "inputs": [],
+    "name": "NewOwnerIsZeroAddress",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NoHandoverRequest",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "Unauthorized",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Claim",
+    "type": "event"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -154,17 +217,31 @@
   {
     "inputs": [],
     "name": "burnWallet",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vapeAmount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vapeAmount",
+        "type": "uint256"
+      }
     ],
     "name": "calculateClaimFee",
     "outputs": [
-      { "internalType": "uint256", "name": "vapeFee", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "vapeFee",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "vapeAmountAfterFee",
@@ -176,11 +253,19 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vpndAmount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vpndAmount",
+        "type": "uint256"
+      }
     ],
     "name": "calculateDepositFee",
     "outputs": [
-      { "internalType": "uint256", "name": "vpndFee", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "vpndFee",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "vpndAmountAfterFee",
@@ -207,20 +292,36 @@
   {
     "inputs": [],
     "name": "claimsEndAt",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "claimsStartAt",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "pendingOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "pendingOwner",
+        "type": "address"
+      }
     ],
     "name": "completeOwnershipHandover",
     "outputs": [],
@@ -230,13 +331,23 @@
   {
     "inputs": [],
     "name": "deployment",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_vpndAmount", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_vpndAmount",
+        "type": "uint256"
+      }
     ],
     "name": "deposit",
     "outputs": [],
@@ -246,21 +357,39 @@
   {
     "inputs": [],
     "name": "depositsEndAt",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "depositsStartAt",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "feeCollector",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -268,18 +397,30 @@
     "inputs": [],
     "name": "owner",
     "outputs": [
-      { "internalType": "address", "name": "result", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "result",
+        "type": "address"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "pendingOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "pendingOwner",
+        "type": "address"
+      }
     ],
     "name": "ownershipHandoverExpiresAt",
     "outputs": [
-      { "internalType": "uint256", "name": "result", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "result",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -287,7 +428,13 @@
   {
     "inputs": [],
     "name": "ownershipHandoverValidFor",
-    "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+    "outputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -308,13 +455,23 @@
   {
     "inputs": [],
     "name": "stratosphere",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "newOwner", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
     ],
     "name": "transferOwnership",
     "outputs": [],
@@ -324,13 +481,23 @@
   {
     "inputs": [],
     "name": "tvl",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_feeCollector", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_feeCollector",
+        "type": "address"
+      }
     ],
     "name": "updateFeeCollector",
     "outputs": [],
@@ -339,7 +506,11 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_vape", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_vape",
+        "type": "address"
+      }
     ],
     "name": "updateVAPE",
     "outputs": [],
@@ -349,30 +520,58 @@
   {
     "inputs": [],
     "name": "vape",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "vapeToDistribute",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "vpnd",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_account", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_account",
+        "type": "address"
+      }
     ],
     "name": "vpndAccountBalance",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -386,14 +585,26 @@
   {
     "inputs": [],
     "name": "withdrawalsEndAt",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "withdrawalsStartAt",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "pure",
     "type": "function"
   }

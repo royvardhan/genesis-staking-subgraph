@@ -1,7 +1,7 @@
 type Deposit @entity(immutable: true) {
   id: ID!
-  account: User!
-  amount: User!
+  account: Bytes!
+  amount: BigInt!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -9,17 +9,25 @@ type Deposit @entity(immutable: true) {
 
 type Withdraw @entity(immutable: true) {
   id: ID!
-  account: User!
-  amount: User!
+  account: Bytes!
+  amount: BigInt!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
 type User @entity {
+  id: Bytes!
+  vpndLocked: BigInt!
+  vapeClaimed: BigInt!
+  vpndWithdrawn: BigInt!
+}
+
+type Claim @entity(immutable: true) {
   id: ID!
-  vpndLocked: [Deposit!]! @derivedFrom(field: "amount")
-  vapeWithdrawn: [Withdraw!]! @derivedFrom(field: "amount")
+  account: Bytes!
+  amount: BigInt!
+  blockTimestamp: BigInt!
 }
 
 type FeeCollectorUpdated @entity {
@@ -46,6 +54,11 @@ type VPNDLocked24H @entity {
 }
 
 type CumulativeVPNDDeposited @entity {
+  id: ID!
+  amount: BigInt!
+}
+
+type CumulativeVPNDWithdrawn @entity {
   id: ID!
   amount: BigInt!
 }

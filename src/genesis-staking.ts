@@ -8,6 +8,7 @@ import {
   OwnershipTransferred as OwnershipTransferredEvent,
   VAPEUpdated as VAPEUpdatedEvent,
   Withdraw as WithdrawEvent,
+  Claim as ClaimEvent,
 } from "../generated/GenesisStaking/GenesisStaking";
 import {
   Deposit,
@@ -16,6 +17,8 @@ import {
   User,
   CumulativeVPNDDeposited,
   VPNDLocked24H,
+  Claim,
+  CumulativeVPNDWithdrawn,
 } from "../generated/schema";
 
 function getIdFromEventParams(txNonce: BigInt, address: Address): string {
@@ -30,22 +33,27 @@ function check24HTimeframe(timestamp: any): boolean {
   } else return false;
 }
 
-export function handleDeposit(event: DepositEvent): void {
-  let user = User.load(event.params.account.toHexString());
+export function handleDepositNew(event: DepositEvent): void {
+  let user = User.load(event.params.account);
+  // Creating a new user if the user does not exist
   if (!user) {
-    user = new User(event.params.account.toHexString());
+    user = new User(event.params.account);
+    user.vpndLocked = event.params.amount;
   }
+  user.vpndLocked = user.vpndLocked.plus(event.params.amount);
+  user.save();
+
+  // Create a new deposit for every deposit
   let deposit = new Deposit(
     getIdFromEventParams(event.transaction.nonce, event.address)
   );
-  deposit.account = event.params.account.toHexString();
-  deposit.amount = event.params.amount.toString();
+  deposit.account = event.params.account;
+  deposit.amount = event.params.amount;
   deposit.blockNumber = event.block.number;
   deposit.blockTimestamp = event.block.timestamp;
   deposit.transactionHash = event.transaction.hash;
-  deposit.save();
-  user.save();
 
+  // Adding every deposit amount to CumulativeVPNDDeposited.
   let cumulativeVPNDDeposited = CumulativeVPNDDeposited.load(
     "CumulativeVPNDDeposited"
   );
@@ -54,12 +62,16 @@ export function handleDeposit(event: DepositEvent): void {
       "CumulativeVPNDDeposited"
     );
     cumulativeVPNDDeposited.amount = event.params.amount;
+    cumulativeVPNDDeposited.save();
   } else {
     cumulativeVPNDDeposited.amount = cumulativeVPNDDeposited.amount.plus(
       event.params.amount
     );
+    cumulativeVPNDDeposited.save();
   }
 
+  // Keeping tract of VPND locked for 24H
+  // For UI, check last lock === current date, if false show 0, else show VPNDLocked24H.amount
   let vpndLocked24H = VPNDLocked24H.load("VPNDLocked24H");
   if (!vpndLocked24H) {
     vpndLocked24H = new VPNDLocked24H("VPNDLocked24H");
@@ -76,20 +88,55 @@ export function handleDeposit(event: DepositEvent): void {
 }
 
 export function handleWithdraw(event: WithdrawEvent): void {
-  let user = User.load(event.params.account.toHexString());
+  let user = User.load(event.params.account);
   if (!user) {
-    user = new User(event.params.account.toHexString());
+    user = new User(event.params.account);
+    user.vpndWithdrawn = event.params.amount;
   }
+  user.vpndWithdrawn = event.params.amount;
+  user.save();
+
   let withdraw = new Withdraw(
     getIdFromEventParams(event.transaction.nonce, event.address)
   );
-  withdraw.account = event.params.account.toHexString();
-  withdraw.amount = event.params.amount.toString();
+  withdraw.account = event.params.account;
+  withdraw.amount = event.params.amount;
   withdraw.blockNumber = event.block.number;
   withdraw.blockTimestamp = event.block.timestamp;
   withdraw.transactionHash = event.transaction.hash;
   withdraw.save();
+
+  let cumulativeVPNDWithdrawn = CumulativeVPNDWithdrawn.load(
+    "CumulativeVPNDWithdrawn"
+  );
+  if (!cumulativeVPNDWithdrawn) {
+    cumulativeVPNDWithdrawn = new CumulativeVPNDWithdrawn(
+      "CumulativeVPNDWithdrawn"
+    );
+    cumulativeVPNDWithdrawn.amount = event.params.amount;
+  }
+  cumulativeVPNDWithdrawn.amount = cumulativeVPNDWithdrawn.amount.plus(
+    event.params.amount
+  );
+  cumulativeVPNDWithdrawn.save();
+}
+
+export function handleClaim(event: ClaimEvent): void {
+  let user = User.load(event.params.account);
+  if (!user) {
+    user = new User(event.params.account);
+    user.vapeClaimed = event.params.amount;
+  }
+  user.vapeClaimed = event.params.amount;
   user.save();
+
+  let claim = new Claim(
+    getIdFromEventParams(event.transaction.nonce, event.address)
+  );
+
+  claim.account = event.params.account;
+  claim.amount = event.params.amount;
+  claim.blockTimestamp = event.block.timestamp;
 }
 
 export function handleFeeCollectorUpdated(
@@ -105,17 +152,3 @@ export function handleFeeCollectorUpdated(
   feeCollectorUpdatedEvent.transactionHash = event.transaction.hash;
   feeCollectorUpdatedEvent.save();
 }
-
-export function handleOwnershipHandoverCanceled(
-  event: OwnershipHandoverCanceledEvent
-): void {}
-
-export function handleOwnershipHandoverRequested(
-  event: OwnershipHandoverRequestedEvent
-): void {}
-
-export function handleOwnershipTransferred(
-  event: OwnershipTransferredEvent
-): void {}
-
-export function handleVAPEUpdated(event: VAPEUpdatedEvent): void {}
