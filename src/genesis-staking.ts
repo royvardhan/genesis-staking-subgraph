@@ -92,8 +92,10 @@ export function handleWithdraw(event: WithdrawEvent): void {
   if (!user) {
     user = new User(event.params.account);
     user.vpndWithdrawn = event.params.amount;
+  } else {
+    user.vpndWithdrawn = event.params.amount;
   }
-  user.vpndWithdrawn = event.params.amount;
+
   user.save();
 
   let withdraw = new Withdraw(
@@ -114,10 +116,12 @@ export function handleWithdraw(event: WithdrawEvent): void {
       "CumulativeVPNDWithdrawn"
     );
     cumulativeVPNDWithdrawn.amount = event.params.amount;
+  } else {
+    cumulativeVPNDWithdrawn.amount = cumulativeVPNDWithdrawn.amount.plus(
+      event.params.amount
+    );
   }
-  cumulativeVPNDWithdrawn.amount = cumulativeVPNDWithdrawn.amount.plus(
-    event.params.amount
-  );
+
   cumulativeVPNDWithdrawn.save();
 }
 
@@ -126,8 +130,9 @@ export function handleClaim(event: ClaimEvent): void {
   if (!user) {
     user = new User(event.params.account);
     user.vapeClaimed = event.params.amount;
+  } else {
+    user.vapeClaimed = event.params.amount;
   }
-  user.vapeClaimed = event.params.amount;
   user.save();
 
   let claim = new Claim(
