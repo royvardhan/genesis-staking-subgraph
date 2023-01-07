@@ -15,27 +15,28 @@ dataSources:
       entities:
         - Deposit
         - FeeCollectorUpdated
-        - OwnershipHandoverCanceled
-        - OwnershipHandoverRequested
-        - OwnershipTransferred
         - VAPEUpdated
         - Withdraw
+        - User
+        - Claim
+        - VPNDLocked24H
+        - CumulativeVPNDDeposited
+        - CumulativeVAPEClaimed
+        - USDMetrics
       abis:
         - name: GenesisStaking
           file: GenesisStaking/abis/GenesisStaking.json
+        - name: Router
+          file: GenesisStaking/abis/Router.json
+        - name: ERC20
+          file: GenesisStaking/abis/ERC20.json
+        - name: Pair
+          file: GenesisStaking/abis/Pair.json
       eventHandlers:
         - event: Deposit(indexed address,uint256)
           handler: handleDeposit
         - event: FeeCollectorUpdated(address,address)
           handler: handleFeeCollectorUpdated
-        - event: OwnershipHandoverCanceled(indexed address)
-          handler: handleOwnershipHandoverCanceled
-        - event: OwnershipHandoverRequested(indexed address)
-          handler: handleOwnershipHandoverRequested
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: VAPEUpdated(address)
           handler: handleVAPEUpdated
-        - event: Withdraw(indexed address,uint256)
-          handler: handleWithdraw
       file: GenesisStaking/GenesisStaking.wasm

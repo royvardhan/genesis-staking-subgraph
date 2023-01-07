@@ -7,22 +7,11 @@ type Deposit @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type Withdraw @entity(immutable: true) {
-  id: ID!
-  account: Bytes!
-  amount: BigInt!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
 type User @entity {
   id: Bytes! #id is address
   vpndLocked: BigInt!
   vapeClaimed: BigInt!
-  vpndWithdrawn: BigInt!
-  shareVpndSurrendered: Int!
-  accuredVapeRealTime: BigInt!
+  shareVpndSurrendered: BigInt!
 }
 
 type Claim @entity(immutable: true) {
@@ -52,11 +41,6 @@ type CumulativeVPNDDeposited @entity {
   amount: BigInt!
 }
 
-type CumulativeVPNDWithdrawn @entity {
-  id: ID!
-  amount: BigInt!
-}
-
 type CumulativeVAPEClaimed @entity {
   id: ID!
   amount: BigInt!
@@ -64,12 +48,9 @@ type CumulativeVAPEClaimed @entity {
 
 type USDMetrics @entity {
   id: ID!
+  vpndDeposited: BigInt! #helper
   vapeSurrenderedUSD: BigDecimal!
   vapePriceRealTimeUSD: BigDecimal!
   vapeRealTimeMcapUSD: BigDecimal!
   vapeFDVRealTimeUSD: BigDecimal!
-  joeMcapUSD: BigDecimal!
-  joeFDVUSD: BigDecimal!
-  uniMcapUSD: BigDecimal!
-  uniFDV: BigDecimal!
 }

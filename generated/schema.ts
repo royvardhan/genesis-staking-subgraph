@@ -88,83 +88,6 @@ export class Deposit extends Entity {
   }
 }
 
-export class Withdraw extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Withdraw entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type Withdraw must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("Withdraw", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Withdraw | null {
-    return changetype<Withdraw | null>(store.get("Withdraw", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get account(): Bytes {
-    let value = this.get("account");
-    return value!.toBytes();
-  }
-
-  set account(value: Bytes) {
-    this.set("account", Value.fromBytes(value));
-  }
-
-  get amount(): BigInt {
-    let value = this.get("amount");
-    return value!.toBigInt();
-  }
-
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
-  }
-
-  get blockNumber(): BigInt {
-    let value = this.get("blockNumber");
-    return value!.toBigInt();
-  }
-
-  set blockNumber(value: BigInt) {
-    this.set("blockNumber", Value.fromBigInt(value));
-  }
-
-  get blockTimestamp(): BigInt {
-    let value = this.get("blockTimestamp");
-    return value!.toBigInt();
-  }
-
-  set blockTimestamp(value: BigInt) {
-    this.set("blockTimestamp", Value.fromBigInt(value));
-  }
-
-  get transactionHash(): Bytes {
-    let value = this.get("transactionHash");
-    return value!.toBytes();
-  }
-
-  set transactionHash(value: Bytes) {
-    this.set("transactionHash", Value.fromBytes(value));
-  }
-}
-
 export class User extends Entity {
   constructor(id: Bytes) {
     super();
@@ -214,31 +137,13 @@ export class User extends Entity {
     this.set("vapeClaimed", Value.fromBigInt(value));
   }
 
-  get vpndWithdrawn(): BigInt {
-    let value = this.get("vpndWithdrawn");
-    return value!.toBigInt();
-  }
-
-  set vpndWithdrawn(value: BigInt) {
-    this.set("vpndWithdrawn", Value.fromBigInt(value));
-  }
-
-  get shareVpndSurrendered(): i32 {
+  get shareVpndSurrendered(): BigInt {
     let value = this.get("shareVpndSurrendered");
-    return value!.toI32();
-  }
-
-  set shareVpndSurrendered(value: i32) {
-    this.set("shareVpndSurrendered", Value.fromI32(value));
-  }
-
-  get accuredVapeRealTime(): BigInt {
-    let value = this.get("accuredVapeRealTime");
     return value!.toBigInt();
   }
 
-  set accuredVapeRealTime(value: BigInt) {
-    this.set("accuredVapeRealTime", Value.fromBigInt(value));
+  set shareVpndSurrendered(value: BigInt) {
+    this.set("shareVpndSurrendered", Value.fromBigInt(value));
   }
 }
 
@@ -476,52 +381,6 @@ export class CumulativeVPNDDeposited extends Entity {
   }
 }
 
-export class CumulativeVPNDWithdrawn extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(
-      id != null,
-      "Cannot save CumulativeVPNDWithdrawn entity without an ID"
-    );
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type CumulativeVPNDWithdrawn must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("CumulativeVPNDWithdrawn", id.toString(), this);
-    }
-  }
-
-  static load(id: string): CumulativeVPNDWithdrawn | null {
-    return changetype<CumulativeVPNDWithdrawn | null>(
-      store.get("CumulativeVPNDWithdrawn", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get amount(): BigInt {
-    let value = this.get("amount");
-    return value!.toBigInt();
-  }
-
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
-  }
-}
-
 export class CumulativeVAPEClaimed extends Entity {
   constructor(id: string) {
     super();
@@ -599,6 +458,15 @@ export class USDMetrics extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get vpndDeposited(): BigInt {
+    let value = this.get("vpndDeposited");
+    return value!.toBigInt();
+  }
+
+  set vpndDeposited(value: BigInt) {
+    this.set("vpndDeposited", Value.fromBigInt(value));
+  }
+
   get vapeSurrenderedUSD(): BigDecimal {
     let value = this.get("vapeSurrenderedUSD");
     return value!.toBigDecimal();
@@ -633,41 +501,5 @@ export class USDMetrics extends Entity {
 
   set vapeFDVRealTimeUSD(value: BigDecimal) {
     this.set("vapeFDVRealTimeUSD", Value.fromBigDecimal(value));
-  }
-
-  get joeMcapUSD(): BigDecimal {
-    let value = this.get("joeMcapUSD");
-    return value!.toBigDecimal();
-  }
-
-  set joeMcapUSD(value: BigDecimal) {
-    this.set("joeMcapUSD", Value.fromBigDecimal(value));
-  }
-
-  get joeFDVUSD(): BigDecimal {
-    let value = this.get("joeFDVUSD");
-    return value!.toBigDecimal();
-  }
-
-  set joeFDVUSD(value: BigDecimal) {
-    this.set("joeFDVUSD", Value.fromBigDecimal(value));
-  }
-
-  get uniMcapUSD(): BigDecimal {
-    let value = this.get("uniMcapUSD");
-    return value!.toBigDecimal();
-  }
-
-  set uniMcapUSD(value: BigDecimal) {
-    this.set("uniMcapUSD", Value.fromBigDecimal(value));
-  }
-
-  get uniFDV(): BigDecimal {
-    let value = this.get("uniFDV");
-    return value!.toBigDecimal();
-  }
-
-  set uniFDV(value: BigDecimal) {
-    this.set("uniFDV", Value.fromBigDecimal(value));
   }
 }
