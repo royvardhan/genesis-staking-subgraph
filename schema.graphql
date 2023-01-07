@@ -21,6 +21,8 @@ type User @entity {
   vpndLocked: BigInt!
   vapeClaimed: BigInt!
   vpndWithdrawn: BigInt!
+  shareVpndSurrendered: Int!
+  accuredVapeRealTime: BigInt!
 }
 
 type Claim @entity(immutable: true) {
@@ -58,4 +60,16 @@ type CumulativeVPNDWithdrawn @entity {
 type CumulativeVAPEClaimed @entity {
   id: ID!
   amount: BigInt!
+}
+
+type USDMetrics @entity {
+  id: ID!
+  vapeSurrenderedUSD: BigDecimal!
+  vapePriceRealTimeUSD: BigDecimal!
+  vapeRealTimeMcapUSD: BigDecimal!
+  vapeFDVRealTimeUSD: BigDecimal!
+  joeMcapUSD: BigDecimal!
+  joeFDVUSD: BigDecimal!
+  uniMcapUSD: BigDecimal!
+  uniFDV: BigDecimal!
 }

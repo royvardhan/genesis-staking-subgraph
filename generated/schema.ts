@@ -222,6 +222,24 @@ export class User extends Entity {
   set vpndWithdrawn(value: BigInt) {
     this.set("vpndWithdrawn", Value.fromBigInt(value));
   }
+
+  get shareVpndSurrendered(): i32 {
+    let value = this.get("shareVpndSurrendered");
+    return value!.toI32();
+  }
+
+  set shareVpndSurrendered(value: i32) {
+    this.set("shareVpndSurrendered", Value.fromI32(value));
+  }
+
+  get accuredVapeRealTime(): BigInt {
+    let value = this.get("accuredVapeRealTime");
+    return value!.toBigInt();
+  }
+
+  set accuredVapeRealTime(value: BigInt) {
+    this.set("accuredVapeRealTime", Value.fromBigInt(value));
+  }
 }
 
 export class Claim extends Entity {
@@ -547,5 +565,109 @@ export class CumulativeVAPEClaimed extends Entity {
 
   set amount(value: BigInt) {
     this.set("amount", Value.fromBigInt(value));
+  }
+}
+
+export class USDMetrics extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save USDMetrics entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type USDMetrics must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("USDMetrics", id.toString(), this);
+    }
+  }
+
+  static load(id: string): USDMetrics | null {
+    return changetype<USDMetrics | null>(store.get("USDMetrics", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get vapeSurrenderedUSD(): BigDecimal {
+    let value = this.get("vapeSurrenderedUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vapeSurrenderedUSD(value: BigDecimal) {
+    this.set("vapeSurrenderedUSD", Value.fromBigDecimal(value));
+  }
+
+  get vapePriceRealTimeUSD(): BigDecimal {
+    let value = this.get("vapePriceRealTimeUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vapePriceRealTimeUSD(value: BigDecimal) {
+    this.set("vapePriceRealTimeUSD", Value.fromBigDecimal(value));
+  }
+
+  get vapeRealTimeMcapUSD(): BigDecimal {
+    let value = this.get("vapeRealTimeMcapUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vapeRealTimeMcapUSD(value: BigDecimal) {
+    this.set("vapeRealTimeMcapUSD", Value.fromBigDecimal(value));
+  }
+
+  get vapeFDVRealTimeUSD(): BigDecimal {
+    let value = this.get("vapeFDVRealTimeUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vapeFDVRealTimeUSD(value: BigDecimal) {
+    this.set("vapeFDVRealTimeUSD", Value.fromBigDecimal(value));
+  }
+
+  get joeMcapUSD(): BigDecimal {
+    let value = this.get("joeMcapUSD");
+    return value!.toBigDecimal();
+  }
+
+  set joeMcapUSD(value: BigDecimal) {
+    this.set("joeMcapUSD", Value.fromBigDecimal(value));
+  }
+
+  get joeFDVUSD(): BigDecimal {
+    let value = this.get("joeFDVUSD");
+    return value!.toBigDecimal();
+  }
+
+  set joeFDVUSD(value: BigDecimal) {
+    this.set("joeFDVUSD", Value.fromBigDecimal(value));
+  }
+
+  get uniMcapUSD(): BigDecimal {
+    let value = this.get("uniMcapUSD");
+    return value!.toBigDecimal();
+  }
+
+  set uniMcapUSD(value: BigDecimal) {
+    this.set("uniMcapUSD", Value.fromBigDecimal(value));
+  }
+
+  get uniFDV(): BigDecimal {
+    let value = this.get("uniFDV");
+    return value!.toBigDecimal();
+  }
+
+  set uniFDV(value: BigDecimal) {
+    this.set("uniFDV", Value.fromBigDecimal(value));
   }
 }
