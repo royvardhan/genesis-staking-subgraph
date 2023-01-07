@@ -16,8 +16,8 @@ import {
   getAVAXPriceInUSD,
 } from "./getters";
 
-export function calculateVapePrice(vapeSurrenderedUSD: BigDecimal): BigDecimal {
-  return vapeSurrenderedUSD.div(BigInt.fromI32(420000).toBigDecimal());
+export function calculateVapePrice(vpndSurrenderedUSD: BigDecimal): BigDecimal {
+  return vpndSurrenderedUSD.div(BigInt.fromI32(420000).toBigDecimal());
 }
 
 export function calculateVapeFDV(vapePrice: BigDecimal): BigDecimal {
