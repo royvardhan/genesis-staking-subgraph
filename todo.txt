@@ -1,0 +1,4 @@
+This is when deploying in mainnet
+
+1. Uncomment usdmetrics code in genesis-staking.ts
+2. Uncomment usdMetrics in helpers and schema as well

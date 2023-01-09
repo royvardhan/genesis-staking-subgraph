@@ -1,6 +1,6 @@
 import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import {
-  USDMetrics,
+  // USDMetrics,
   VPNDLocked24H,
   CumulativeVPNDDeposited,
   CumulativeVAPEClaimed,
@@ -28,42 +28,42 @@ export function calculateVapeMcap(vapePrice: BigDecimal): BigDecimal {
   return vapePrice.times(BigInt.fromI32(420000).toBigDecimal());
 }
 
-export function updateUSDMetrics(event: DepositEvent): void {
-  let usdMetrics = USDMetrics.load("USDMetrics");
-  if (!usdMetrics) {
-    usdMetrics = new USDMetrics("USDMetrics");
-    usdMetrics.vpndDeposited = event.params.amount;
-    usdMetrics.vapeSurrenderedUSD = event.params.amount
-      .toBigDecimal()
-      .times(getVPNDPriceInUSD());
-    usdMetrics.vapePriceRealTimeUSD = calculateVapePrice(
-      usdMetrics.vapeSurrenderedUSD
-    );
-    usdMetrics.vapeFDVRealTimeUSD = calculateVapeFDV(
-      usdMetrics.vapePriceRealTimeUSD
-    );
-    usdMetrics.vapeRealTimeMcapUSD = calculateVapeMcap(
-      usdMetrics.vapePriceRealTimeUSD
-    );
-  } else {
-    usdMetrics.vpndDeposited = usdMetrics.vpndDeposited.plus(
-      event.params.amount
-    );
-    usdMetrics.vapeSurrenderedUSD = usdMetrics.vpndDeposited
-      .toBigDecimal()
-      .times(getVPNDPriceInUSD());
-    usdMetrics.vapePriceRealTimeUSD = calculateVapePrice(
-      usdMetrics.vapeSurrenderedUSD
-    );
-    usdMetrics.vapeFDVRealTimeUSD = calculateVapeFDV(
-      usdMetrics.vapePriceRealTimeUSD
-    );
-    usdMetrics.vapeRealTimeMcapUSD = calculateVapeMcap(
-      usdMetrics.vapePriceRealTimeUSD
-    );
-  }
-  usdMetrics.save();
-}
+// export function updateUSDMetrics(event: DepositEvent): void {
+//   let usdMetrics = USDMetrics.load("USDMetrics");
+//   if (!usdMetrics) {
+//     usdMetrics = new USDMetrics("USDMetrics");
+//     usdMetrics.vpndDeposited = event.params.amount;
+//     usdMetrics.vapeSurrenderedUSD = event.params.amount
+//       .toBigDecimal()
+//       .times(getVPNDPriceInUSD());
+//     usdMetrics.vapePriceRealTimeUSD = calculateVapePrice(
+//       usdMetrics.vapeSurrenderedUSD
+//     );
+//     usdMetrics.vapeFDVRealTimeUSD = calculateVapeFDV(
+//       usdMetrics.vapePriceRealTimeUSD
+//     );
+//     usdMetrics.vapeRealTimeMcapUSD = calculateVapeMcap(
+//       usdMetrics.vapePriceRealTimeUSD
+//     );
+//   } else {
+//     usdMetrics.vpndDeposited = usdMetrics.vpndDeposited.plus(
+//       event.params.amount
+//     );
+//     usdMetrics.vapeSurrenderedUSD = usdMetrics.vpndDeposited
+//       .toBigDecimal()
+//       .times(getVPNDPriceInUSD());
+//     usdMetrics.vapePriceRealTimeUSD = calculateVapePrice(
+//       usdMetrics.vapeSurrenderedUSD
+//     );
+//     usdMetrics.vapeFDVRealTimeUSD = calculateVapeFDV(
+//       usdMetrics.vapePriceRealTimeUSD
+//     );
+//     usdMetrics.vapeRealTimeMcapUSD = calculateVapeMcap(
+//       usdMetrics.vapePriceRealTimeUSD
+//     );
+//   }
+//   usdMetrics.save();
+// }
 
 export function updateVPNDLocked24H(event: DepositEvent): void {
   let vpndLocked24H = VPNDLocked24H.load(getDailyID(event).toString());
@@ -87,6 +87,7 @@ export function updateCumulativeVPNDDeposited(event: DepositEvent): void {
       "CumulativeVPNDDeposited"
     );
     cumulativeVPNDDeposited.amount = event.params.amount;
+    cumulativeVPNDDeposited.save();
   } else {
     cumulativeVPNDDeposited.amount = cumulativeVPNDDeposited.amount.plus(
       event.params.amount

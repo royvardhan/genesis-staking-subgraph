@@ -21,7 +21,6 @@ dataSources:
         - VPNDLocked24H
         - CumulativeVPNDDeposited
         - CumulativeVAPEClaimed
-        - USDMetrics
       abis:
         - name: GenesisStaking
           file: GenesisStaking/abis/GenesisStaking.json

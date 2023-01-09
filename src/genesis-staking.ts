@@ -3,10 +3,6 @@ import {
   GenesisStaking,
   Deposit as DepositEvent,
   FeeCollectorUpdated as FeeCollectorUpdatedEvent,
-  OwnershipHandoverCanceled as OwnershipHandoverCanceledEvent,
-  OwnershipHandoverRequested as OwnershipHandoverRequestedEvent,
-  OwnershipTransferred as OwnershipTransferredEvent,
-  VAPEUpdated as VAPEUpdatedEvent,
   Claim as ClaimEvent,
 } from "../generated/GenesisStaking/GenesisStaking";
 import {
@@ -18,7 +14,7 @@ import {
 } from "../generated/schema";
 
 import {
-  updateUSDMetrics,
+  // updateUSDMetrics,
   updateVPNDLocked24H,
   updateCumulativeVPNDDeposited,
   updateCumulativeVAPEClaimed,
@@ -37,6 +33,7 @@ export function handleDeposit(event: DepositEvent): void {
   if (!user) {
     user = new User(event.params.account);
     user.vpndLocked = event.params.amount;
+    user.vapeClaimed = BigInt.fromI32(0);
     let cumulativeVPNDDeposited = CumulativeVPNDDeposited.load(
       "CumulativeVPNDDeposited"
     );
@@ -49,6 +46,7 @@ export function handleDeposit(event: DepositEvent): void {
     }
   } else {
     user.vpndLocked = user.vpndLocked.plus(event.params.amount);
+    user.vapeClaimed = user.vapeClaimed;
     let cumulativeVPNDDeposited = CumulativeVPNDDeposited.load(
       "CumulativeVPNDDeposited"
     );
@@ -59,9 +57,9 @@ export function handleDeposit(event: DepositEvent): void {
         .times(cumulativeVPNDDeposited.amount)
         .div(BigInt.fromI32(100));
     }
-
-    user.save();
   }
+
+  user.save();
 
   // Create a new deposit for every deposit
   let deposit = new Deposit(
@@ -77,16 +75,23 @@ export function handleDeposit(event: DepositEvent): void {
 
   updateCumulativeVPNDDeposited(event);
   updateVPNDLocked24H(event);
-  updateUSDMetrics(event);
+  // updateUSDMetrics(event);
 }
 
 export function handleClaim(event: ClaimEvent): void {
   let user = User.load(event.params.account);
+
+  // User cannot be null at the time of claim
+  // Added the if statement to avoid any blocker
   if (!user) {
     user = new User(event.params.account);
     user.vapeClaimed = event.params.amount;
+    user.vpndLocked = BigInt.fromI32(0);
+    user.shareVpndSurrendered = BigInt.fromI32(0);
   } else {
     user.vapeClaimed = event.params.amount;
+    user.vpndLocked = user.vpndLocked;
+    user.shareVpndSurrendered = user.shareVpndSurrendered;
   }
   user.save();
 
