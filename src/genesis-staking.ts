@@ -7,7 +7,6 @@ import {
   OwnershipHandoverRequested as OwnershipHandoverRequestedEvent,
   OwnershipTransferred as OwnershipTransferredEvent,
   VAPEUpdated as VAPEUpdatedEvent,
-  Withdraw as WithdrawEvent,
   Claim as ClaimEvent,
 } from "../generated/GenesisStaking/GenesisStaking";
 import {
@@ -25,7 +24,10 @@ import {
   updateCumulativeVAPEClaimed,
 } from "./helpers";
 
-function getIdFromEventParams(txNonce: BigInt, address: Address): string {
+export function getIdFromEventParams(
+  txNonce: BigInt,
+  address: Address
+): string {
   return txNonce.toHexString() + address.toHexString();
 }
 

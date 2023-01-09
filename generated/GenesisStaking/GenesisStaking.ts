@@ -134,6 +134,28 @@ export class OwnershipTransferred__Params {
   }
 }
 
+export class Retrieve extends ethereum.Event {
+  get params(): Retrieve__Params {
+    return new Retrieve__Params(this);
+  }
+}
+
+export class Retrieve__Params {
+  _event: Retrieve;
+
+  constructor(event: Retrieve) {
+    this._event = event;
+  }
+
+  get vpndAmount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get vapeAmount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
 export class VAPEUpdated extends ethereum.Event {
   get params(): VAPEUpdated__Params {
     return new VAPEUpdated__Params(this);
@@ -149,28 +171,6 @@ export class VAPEUpdated__Params {
 
   get vape(): Address {
     return this._event.parameters[0].value.toAddress();
-  }
-}
-
-export class Withdraw extends ethereum.Event {
-  get params(): Withdraw__Params {
-    return new Withdraw__Params(this);
-  }
-}
-
-export class Withdraw__Params {
-  _event: Withdraw;
-
-  constructor(event: Withdraw) {
-    this._event = event;
-  }
-
-  get account(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
   }
 }
 
@@ -588,52 +588,6 @@ export class GenesisStaking extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
-
-  withdrawalsEndAt(): BigInt {
-    let result = super.call(
-      "withdrawalsEndAt",
-      "withdrawalsEndAt():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_withdrawalsEndAt(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "withdrawalsEndAt",
-      "withdrawalsEndAt():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  withdrawalsStartAt(): BigInt {
-    let result = super.call(
-      "withdrawalsStartAt",
-      "withdrawalsStartAt():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_withdrawalsStartAt(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "withdrawalsStartAt",
-      "withdrawalsStartAt():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
 }
 
 export class ConstructorCall extends ethereum.Call {
@@ -657,8 +611,12 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[0].value.toAddress();
   }
 
-  get _stratosphere(): Address {
+  get _vape(): Address {
     return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _stratosphere(): Address {
+    return this._call.inputValues[2].value.toAddress();
   }
 }
 
@@ -834,6 +792,36 @@ export class RequestOwnershipHandoverCall__Outputs {
   }
 }
 
+export class RetrieveCall extends ethereum.Call {
+  get inputs(): RetrieveCall__Inputs {
+    return new RetrieveCall__Inputs(this);
+  }
+
+  get outputs(): RetrieveCall__Outputs {
+    return new RetrieveCall__Outputs(this);
+  }
+}
+
+export class RetrieveCall__Inputs {
+  _call: RetrieveCall;
+
+  constructor(call: RetrieveCall) {
+    this._call = call;
+  }
+
+  get _to(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class RetrieveCall__Outputs {
+  _call: RetrieveCall;
+
+  constructor(call: RetrieveCall) {
+    this._call = call;
+  }
+}
+
 export class TransferOwnershipCall extends ethereum.Call {
   get inputs(): TransferOwnershipCall__Inputs {
     return new TransferOwnershipCall__Inputs(this);
@@ -890,62 +878,6 @@ export class UpdateFeeCollectorCall__Outputs {
   _call: UpdateFeeCollectorCall;
 
   constructor(call: UpdateFeeCollectorCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateVAPECall extends ethereum.Call {
-  get inputs(): UpdateVAPECall__Inputs {
-    return new UpdateVAPECall__Inputs(this);
-  }
-
-  get outputs(): UpdateVAPECall__Outputs {
-    return new UpdateVAPECall__Outputs(this);
-  }
-}
-
-export class UpdateVAPECall__Inputs {
-  _call: UpdateVAPECall;
-
-  constructor(call: UpdateVAPECall) {
-    this._call = call;
-  }
-
-  get _vape(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class UpdateVAPECall__Outputs {
-  _call: UpdateVAPECall;
-
-  constructor(call: UpdateVAPECall) {
-    this._call = call;
-  }
-}
-
-export class WithdrawCall extends ethereum.Call {
-  get inputs(): WithdrawCall__Inputs {
-    return new WithdrawCall__Inputs(this);
-  }
-
-  get outputs(): WithdrawCall__Outputs {
-    return new WithdrawCall__Outputs(this);
-  }
-}
-
-export class WithdrawCall__Inputs {
-  _call: WithdrawCall;
-
-  constructor(call: WithdrawCall) {
-    this._call = call;
-  }
-}
-
-export class WithdrawCall__Outputs {
-  _call: WithdrawCall;
-
-  constructor(call: WithdrawCall) {
     this._call = call;
   }
 }

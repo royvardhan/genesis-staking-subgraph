@@ -4,10 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: GenesisStaking
-    network: avalanche
+    network: fuji
     source:
-      address: "0x8c6dD8b21303a8bC0a6F18F82e3b7c07cCc0C213"
+      address: "0x4d9272263eb92a0c784c455f48992aded1256137"
       abi: GenesisStaking
+      startBlock: 17813935
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -15,8 +16,6 @@ dataSources:
       entities:
         - Deposit
         - FeeCollectorUpdated
-        - VAPEUpdated
-        - Withdraw
         - User
         - Claim
         - VPNDLocked24H
@@ -37,7 +36,7 @@ dataSources:
           handler: handleDeposit
         - event: FeeCollectorUpdated(address,address)
           handler: handleFeeCollectorUpdated
-        - event: VAPEUpdated(address)
-          handler: handleVAPEUpdated
+        - event: Claim(indexed address,uint256)
+          handler: handleClaim
 
       file: ./src/genesis-staking.ts

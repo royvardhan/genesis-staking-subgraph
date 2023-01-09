@@ -48,7 +48,7 @@ type CumulativeVAPEClaimed @entity {
 
 type USDMetrics @entity {
   id: ID!
-  vpndDeposited: BigInt!
+  vpndDeposited: BigInt! #helper
   vapeSurrenderedUSD: BigDecimal!
   vapePriceRealTimeUSD: BigDecimal!
   vapeRealTimeMcapUSD: BigDecimal!
