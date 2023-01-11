@@ -5,6 +5,7 @@ import {
   FeeCollectorUpdated as FeeCollectorUpdatedEvent,
   Claim as ClaimEvent,
 } from "../generated/GenesisStaking/GenesisStaking";
+import { Transfer as TransferEvent } from "../generated/WAVAX/WAVAX";
 import {
   Deposit,
   FeeCollectorUpdated,
@@ -14,10 +15,11 @@ import {
 } from "../generated/schema";
 
 import {
-  // updateUSDMetrics,
+  updateUSDMetrics,
   updateVPNDLocked24H,
   updateCumulativeVPNDDeposited,
   updateCumulativeVAPEClaimed,
+  updateVapePrice,
 } from "./helpers";
 
 export function getIdFromEventParams(
@@ -34,29 +36,9 @@ export function handleDeposit(event: DepositEvent): void {
     user = new User(event.params.account);
     user.vpndLocked = event.params.amount;
     user.vapeClaimed = BigInt.fromI32(0);
-    let cumulativeVPNDDeposited = CumulativeVPNDDeposited.load(
-      "CumulativeVPNDDeposited"
-    );
-    if (!cumulativeVPNDDeposited) {
-      user.shareVpndSurrendered = BigInt.fromI32(100);
-    } else {
-      user.shareVpndSurrendered = user.vpndLocked
-        .times(cumulativeVPNDDeposited.amount)
-        .div(BigInt.fromI32(100));
-    }
   } else {
     user.vpndLocked = user.vpndLocked.plus(event.params.amount);
     user.vapeClaimed = user.vapeClaimed;
-    let cumulativeVPNDDeposited = CumulativeVPNDDeposited.load(
-      "CumulativeVPNDDeposited"
-    );
-    if (!cumulativeVPNDDeposited) {
-      user.shareVpndSurrendered = BigInt.fromI32(100);
-    } else {
-      user.shareVpndSurrendered = user.vpndLocked
-        .times(cumulativeVPNDDeposited.amount)
-        .div(BigInt.fromI32(100));
-    }
   }
 
   user.save();
@@ -75,7 +57,7 @@ export function handleDeposit(event: DepositEvent): void {
 
   updateCumulativeVPNDDeposited(event);
   updateVPNDLocked24H(event);
-  // updateUSDMetrics(event);
+  updateUSDMetrics(event);
 }
 
 export function handleClaim(event: ClaimEvent): void {
@@ -87,11 +69,9 @@ export function handleClaim(event: ClaimEvent): void {
     user = new User(event.params.account);
     user.vapeClaimed = event.params.amount;
     user.vpndLocked = BigInt.fromI32(0);
-    user.shareVpndSurrendered = BigInt.fromI32(0);
   } else {
     user.vapeClaimed = event.params.amount;
     user.vpndLocked = user.vpndLocked;
-    user.shareVpndSurrendered = user.shareVpndSurrendered;
   }
   user.save();
 
@@ -118,4 +98,8 @@ export function handleFeeCollectorUpdated(
   feeCollectorUpdatedEvent.blockTimestamp = event.block.timestamp;
   feeCollectorUpdatedEvent.transactionHash = event.transaction.hash;
   feeCollectorUpdatedEvent.save();
+}
+
+export function handleTransfer(event: TransferEvent): void {
+  updateVapePrice(event);
 }

@@ -79,6 +79,11 @@ export const VPND_ADDRESS = Address.fromString(
   "0x83a283641C6B4DF383BCDDf807193284C84c5342"
 );
 
+// Need to change after deployment
+export const GENESIS_STAKING = Address.fromString(
+  "0x4d9272263eb92a0c784c455f48992aded1256137"
+);
+
 export const WAVAX_ADDRESS = Address.fromString(
   "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
 );

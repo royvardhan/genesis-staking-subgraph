@@ -4,7 +4,7 @@ schema:
 dataSources:
   - kind: ethereum
     name: GenesisStaking
-    network: fuji
+    network: avalanche
     source:
       address: "0x4d9272263eb92a0c784c455f48992aded1256137"
       abi: GenesisStaking
@@ -21,7 +21,7 @@ dataSources:
         - VPNDLocked24H
         - CumulativeVPNDDeposited
         - CumulativeVAPEClaimed
-        # - USDMetrics
+        - USDMetrics
       abis:
         - name: GenesisStaking
           file: ./abis/GenesisStaking.json
@@ -38,5 +38,24 @@ dataSources:
           handler: handleFeeCollectorUpdated
         - event: Claim(indexed address,uint256)
           handler: handleClaim
-
+      file: ./src/genesis-staking.ts
+  - kind: ethereum
+    name: WAVAX
+    network: avalanche
+    source:
+      address: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
+      abi: WAVAX
+      startBlock: 17813935
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - VapePrice
+      abis:
+        - name: WAVAX
+          file: ./abis/WAVAX.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
       file: ./src/genesis-staking.ts

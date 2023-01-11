@@ -136,15 +136,6 @@ export class User extends Entity {
   set vapeClaimed(value: BigInt) {
     this.set("vapeClaimed", Value.fromBigInt(value));
   }
-
-  get shareVpndSurrendered(): BigInt {
-    let value = this.get("shareVpndSurrendered");
-    return value!.toBigInt();
-  }
-
-  set shareVpndSurrendered(value: BigInt) {
-    this.set("shareVpndSurrendered", Value.fromBigInt(value));
-  }
 }
 
 export class Claim extends Entity {
@@ -316,13 +307,13 @@ export class VPNDLocked24H extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get lastLock(): BigInt {
-    let value = this.get("lastLock");
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
     return value!.toBigInt();
   }
 
-  set lastLock(value: BigInt) {
-    this.set("lastLock", Value.fromBigInt(value));
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
   }
 
   get amount(): BigInt {
@@ -424,5 +415,232 @@ export class CumulativeVAPEClaimed extends Entity {
 
   set amount(value: BigInt) {
     this.set("amount", Value.fromBigInt(value));
+  }
+}
+
+export class USDMetrics extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save USDMetrics entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type USDMetrics must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("USDMetrics", id.toString(), this);
+    }
+  }
+
+  static load(id: string): USDMetrics | null {
+    return changetype<USDMetrics | null>(store.get("USDMetrics", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get vpndDeposited(): BigInt {
+    let value = this.get("vpndDeposited");
+    return value!.toBigInt();
+  }
+
+  set vpndDeposited(value: BigInt) {
+    this.set("vpndDeposited", Value.fromBigInt(value));
+  }
+
+  get vpndSurrenderedUSD(): BigDecimal {
+    let value = this.get("vpndSurrenderedUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vpndSurrenderedUSD(value: BigDecimal) {
+    this.set("vpndSurrenderedUSD", Value.fromBigDecimal(value));
+  }
+
+  get vapePriceRealTimeUSD(): BigDecimal {
+    let value = this.get("vapePriceRealTimeUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vapePriceRealTimeUSD(value: BigDecimal) {
+    this.set("vapePriceRealTimeUSD", Value.fromBigDecimal(value));
+  }
+
+  get vapeRealTimeMcapUSD(): BigDecimal {
+    let value = this.get("vapeRealTimeMcapUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vapeRealTimeMcapUSD(value: BigDecimal) {
+    this.set("vapeRealTimeMcapUSD", Value.fromBigDecimal(value));
+  }
+
+  get vapeFDVRealTimeUSD(): BigDecimal {
+    let value = this.get("vapeFDVRealTimeUSD");
+    return value!.toBigDecimal();
+  }
+
+  set vapeFDVRealTimeUSD(value: BigDecimal) {
+    this.set("vapeFDVRealTimeUSD", Value.fromBigDecimal(value));
+  }
+}
+
+export class VapePrice5M extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save VapePrice5M entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VapePrice5M must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("VapePrice5M", id.toString(), this);
+    }
+  }
+
+  static load(id: string): VapePrice5M | null {
+    return changetype<VapePrice5M | null>(store.get("VapePrice5M", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get price(): BigDecimal {
+    let value = this.get("price");
+    return value!.toBigDecimal();
+  }
+
+  set price(value: BigDecimal) {
+    this.set("price", Value.fromBigDecimal(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
+  }
+}
+
+export class VapePrice1H extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save VapePrice1H entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VapePrice1H must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("VapePrice1H", id.toString(), this);
+    }
+  }
+
+  static load(id: string): VapePrice1H | null {
+    return changetype<VapePrice1H | null>(store.get("VapePrice1H", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get price(): BigDecimal {
+    let value = this.get("price");
+    return value!.toBigDecimal();
+  }
+
+  set price(value: BigDecimal) {
+    this.set("price", Value.fromBigDecimal(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
+  }
+}
+
+export class VapePrice1D extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save VapePrice1D entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VapePrice1D must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("VapePrice1D", id.toString(), this);
+    }
+  }
+
+  static load(id: string): VapePrice1D | null {
+    return changetype<VapePrice1D | null>(store.get("VapePrice1D", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get price(): BigDecimal {
+    let value = this.get("price");
+    return value!.toBigDecimal();
+  }
+
+  set price(value: BigDecimal) {
+    this.set("price", Value.fromBigDecimal(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
   }
 }

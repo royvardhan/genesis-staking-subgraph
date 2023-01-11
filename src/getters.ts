@@ -1,5 +1,6 @@
-import { BigDecimal } from "@graphprotocol/graph-ts";
+import { BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { Deposit as DepositEvent } from "../generated/GenesisStaking/GenesisStaking";
+import { Transfer as TransferEvent } from "../generated/WAVAX/WAVAX";
 import { DeployedBlockTimeStamp } from "./constants";
 import { Pair } from "../generated/GenesisStaking/Pair";
 import {
@@ -10,11 +11,20 @@ import {
   AVAX_DECIMALS,
 } from "./constants";
 
-export function getDailyID(event: DepositEvent): number {
-  let dailyID =
-    (event.block.timestamp.toI32() - DeployedBlockTimeStamp) / 86400;
+export function getDailyID(timestamp: BigInt): number {
+  let dailyID = (timestamp.toI32() - DeployedBlockTimeStamp) / 86400;
 
   return dailyID + 1;
+}
+
+export function get5MinID(event: TransferEvent): number {
+  let id = (event.block.timestamp.toI32() - DeployedBlockTimeStamp) / 300;
+  return id + 1;
+}
+
+export function getHourlyID(event: TransferEvent): number {
+  let id = (event.block.timestamp.toI32() - DeployedBlockTimeStamp) / 3600;
+  return id + 1;
 }
 export function formatAmount(amount: BigDecimal, decimals: i32): BigDecimal {
   return amount.div(BIGINT_TEN.pow(decimals as u8).toBigDecimal());

@@ -11,7 +11,6 @@ type User @entity {
   id: Bytes! #id is address
   vpndLocked: BigInt!
   vapeClaimed: BigInt!
-  shareVpndSurrendered: BigInt!
 }
 
 type Claim @entity(immutable: true) {
@@ -32,7 +31,7 @@ type FeeCollectorUpdated @entity {
 
 type VPNDLocked24H @entity {
   id: String!
-  lastLock: BigInt!
+  lastUpdated: BigInt!
   amount: BigInt!
 }
 
@@ -46,11 +45,29 @@ type CumulativeVAPEClaimed @entity {
   amount: BigInt!
 }
 
-# type USDMetrics @entity {
-#   id: ID!
-#   vpndDeposited: BigInt! #helper
-#   vapeSurrenderedUSD: BigDecimal!
-#   vapePriceRealTimeUSD: BigDecimal!
-#   vapeRealTimeMcapUSD: BigDecimal!
-#   vapeFDVRealTimeUSD: BigDecimal!
-# }
+type USDMetrics @entity {
+  id: ID!
+  vpndDeposited: BigInt! #helper
+  vpndSurrenderedUSD: BigDecimal!
+  vapePriceRealTimeUSD: BigDecimal!
+  vapeRealTimeMcapUSD: BigDecimal!
+  vapeFDVRealTimeUSD: BigDecimal!
+}
+
+type VapePrice5M @entity {
+  id: String!
+  price: BigDecimal!
+  lastUpdated: BigInt!
+}
+
+type VapePrice1H @entity {
+  id: String!
+  price: BigDecimal!
+  lastUpdated: BigInt!
+}
+
+type VapePrice1D @entity {
+  id: String!
+  price: BigDecimal!
+  lastUpdated: BigInt!
+}
