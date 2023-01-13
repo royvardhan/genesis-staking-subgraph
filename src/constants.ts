@@ -62,8 +62,7 @@ export const TJRouter_V2_ADDRESS = Address.fromString(
   "0x60aE616a2155Ee3d9A68541Ba4544862310933d4"
 );
 
-// Need to change after deployment
-export const DeployedBlockTimeStamp = 1673203784;
+export const DeployedBlockTimeStamp = 1673625422;
 
 export const AVAX_USDC_PAIR = Address.fromString(
   "0xf4003F4efBE8691B60249E6afbD307aBE7758adb"
@@ -79,9 +78,8 @@ export const VPND_ADDRESS = Address.fromString(
   "0x83a283641C6B4DF383BCDDf807193284C84c5342"
 );
 
-// Need to change after deployment
 export const GENESIS_STAKING = Address.fromString(
-  "0x4d9272263eb92a0c784c455f48992aded1256137"
+  "0xD21Fe537C97054f40890f012955A536d80D1Bf00"
 );
 
 export const WAVAX_ADDRESS = Address.fromString(

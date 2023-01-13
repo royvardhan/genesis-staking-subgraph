@@ -23,7 +23,6 @@ import {
   getHourlyID,
 } from "./getters";
 import { Transfer as TransferEvent, WAVAX } from "../generated/WAVAX/WAVAX";
-import { VPND_ADDRESS, GENESIS_STAKING } from "./constants";
 
 export function calculateVapePrice(vpndSurrenderedUSD: BigDecimal): BigDecimal {
   return vpndSurrenderedUSD.div(BigInt.fromI32(420000).toBigDecimal());
