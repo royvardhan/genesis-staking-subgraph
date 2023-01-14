@@ -1,4 +1,4 @@
-type Deposit @entity(immutable: true) {
+type Deposit @entity {
   id: ID!
   account: Bytes!
   amount: BigInt!
@@ -13,7 +13,7 @@ type User @entity {
   vapeClaimed: BigInt!
 }
 
-type Claim @entity(immutable: true) {
+type Claim @entity {
   id: ID!
   account: Bytes!
   amount: BigInt!

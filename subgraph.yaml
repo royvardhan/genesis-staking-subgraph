@@ -6,7 +6,7 @@ dataSources:
     name: GenesisStaking
     network: avalanche
     source:
-      address: "0x4d9272263eb92a0c784c455f48992aded1256137"
+      address: "0xD21Fe537C97054f40890f012955A536d80D1Bf00"
       abi: GenesisStaking
       startBlock: 24893121
     mapping:
@@ -40,7 +40,7 @@ dataSources:
           handler: handleClaim
       file: ./src/genesis-staking.ts
   - kind: ethereum
-    name: WAVAX
+    name: Wrapped AVAX
     network: avalanche
     source:
       address: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
