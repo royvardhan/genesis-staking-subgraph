@@ -57,7 +57,6 @@ export function handleDeposit(event: DepositEvent): void {
 
   updateCumulativeVPNDDeposited(event);
   updateVPNDLocked24H(event);
-  updateUSDMetrics(event);
 }
 
 export function handleClaim(event: ClaimEvent): void {
@@ -102,4 +101,5 @@ export function handleFeeCollectorUpdated(
 
 export function handleTransfer(event: TransferEvent): void {
   updateVapePrice(event);
+  updateUSDMetrics(event);
 }

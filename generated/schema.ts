@@ -449,13 +449,13 @@ export class USDMetrics extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get vpndDeposited(): BigInt {
-    let value = this.get("vpndDeposited");
-    return value!.toBigInt();
+  get price(): BigDecimal {
+    let value = this.get("price");
+    return value!.toBigDecimal();
   }
 
-  set vpndDeposited(value: BigInt) {
-    this.set("vpndDeposited", Value.fromBigInt(value));
+  set price(value: BigDecimal) {
+    this.set("price", Value.fromBigDecimal(value));
   }
 
   get vpndSurrenderedUSD(): BigDecimal {
@@ -467,24 +467,6 @@ export class USDMetrics extends Entity {
     this.set("vpndSurrenderedUSD", Value.fromBigDecimal(value));
   }
 
-  get vapePriceRealTimeUSD(): BigDecimal {
-    let value = this.get("vapePriceRealTimeUSD");
-    return value!.toBigDecimal();
-  }
-
-  set vapePriceRealTimeUSD(value: BigDecimal) {
-    this.set("vapePriceRealTimeUSD", Value.fromBigDecimal(value));
-  }
-
-  get vapeRealTimeMcapUSD(): BigDecimal {
-    let value = this.get("vapeRealTimeMcapUSD");
-    return value!.toBigDecimal();
-  }
-
-  set vapeRealTimeMcapUSD(value: BigDecimal) {
-    this.set("vapeRealTimeMcapUSD", Value.fromBigDecimal(value));
-  }
-
   get vapeFDVRealTimeUSD(): BigDecimal {
     let value = this.get("vapeFDVRealTimeUSD");
     return value!.toBigDecimal();
@@ -492,6 +474,15 @@ export class USDMetrics extends Entity {
 
   set vapeFDVRealTimeUSD(value: BigDecimal) {
     this.set("vapeFDVRealTimeUSD", Value.fromBigDecimal(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
   }
 }
 
