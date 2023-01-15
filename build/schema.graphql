@@ -1,7 +1,7 @@
 type Deposit @entity {
   id: ID!
   account: Bytes!
-  amount: BigInt!
+  amount: BigDecimal!
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
@@ -9,14 +9,14 @@ type Deposit @entity {
 
 type User @entity {
   id: Bytes! #id is address
-  vpndLocked: BigInt!
-  vapeClaimed: BigInt!
+  vpndLocked: BigDecimal!
+  vapeClaimed: BigDecimal!
 }
 
 type Claim @entity {
   id: ID!
   account: Bytes!
-  amount: BigInt!
+  amount: BigDecimal!
   blockTimestamp: BigInt!
 }
 
@@ -32,17 +32,17 @@ type FeeCollectorUpdated @entity {
 type VPNDLocked24H @entity {
   id: String!
   lastUpdated: BigInt!
-  amount: BigInt!
+  amount: BigDecimal!
 }
 
 type CumulativeVPNDDeposited @entity {
   id: ID!
-  amount: BigInt!
+  amount: BigDecimal!
 }
 
 type CumulativeVAPEClaimed @entity {
   id: ID!
-  amount: BigInt!
+  amount: BigDecimal!
 }
 
 type USDMetrics @entity {

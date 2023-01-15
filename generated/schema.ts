@@ -51,13 +51,13 @@ export class Deposit extends Entity {
     this.set("account", Value.fromBytes(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 
   get blockNumber(): BigInt {
@@ -119,22 +119,22 @@ export class User extends Entity {
     this.set("id", Value.fromBytes(value));
   }
 
-  get vpndLocked(): BigInt {
+  get vpndLocked(): BigDecimal {
     let value = this.get("vpndLocked");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set vpndLocked(value: BigInt) {
-    this.set("vpndLocked", Value.fromBigInt(value));
+  set vpndLocked(value: BigDecimal) {
+    this.set("vpndLocked", Value.fromBigDecimal(value));
   }
 
-  get vapeClaimed(): BigInt {
+  get vapeClaimed(): BigDecimal {
     let value = this.get("vapeClaimed");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set vapeClaimed(value: BigInt) {
-    this.set("vapeClaimed", Value.fromBigInt(value));
+  set vapeClaimed(value: BigDecimal) {
+    this.set("vapeClaimed", Value.fromBigDecimal(value));
   }
 }
 
@@ -178,13 +178,13 @@ export class Claim extends Entity {
     this.set("account", Value.fromBytes(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 
   get blockTimestamp(): BigInt {
@@ -316,13 +316,13 @@ export class VPNDLocked24H extends Entity {
     this.set("lastUpdated", Value.fromBigInt(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 }
 
@@ -362,13 +362,13 @@ export class CumulativeVPNDDeposited extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 }
 
@@ -408,13 +408,13 @@ export class CumulativeVAPEClaimed extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get amount(): BigInt {
+  get amount(): BigDecimal {
     let value = this.get("amount");
-    return value!.toBigInt();
+    return value!.toBigDecimal();
   }
 
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
   }
 }
 

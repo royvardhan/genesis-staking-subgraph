@@ -40,7 +40,7 @@ export function updateVPNDLocked24H(event: DepositEvent): void {
       getDailyID(event.block.timestamp).toString()
     );
     vpndLocked24H.lastUpdated = event.block.timestamp;
-    vpndLocked24H.amount = event.params.amount;
+    vpndLocked24H.amount = formatAmount(event.params.amount.toBigDecimal(), 18);
   }
   vpndLocked24H.save();
 }
@@ -53,11 +53,14 @@ export function updateCumulativeVPNDDeposited(event: DepositEvent): void {
     let cumulativeVPNDDeposited = new CumulativeVPNDDeposited(
       "CumulativeVPNDDeposited"
     );
-    cumulativeVPNDDeposited.amount = event.params.amount;
+    cumulativeVPNDDeposited.amount = formatAmount(
+      event.params.amount.toBigDecimal(),
+      18
+    );
     cumulativeVPNDDeposited.save();
   } else {
     cumulativeVPNDDeposited.amount = cumulativeVPNDDeposited.amount.plus(
-      event.params.amount
+      formatAmount(event.params.amount.toBigDecimal(), 18)
     );
     cumulativeVPNDDeposited.save();
   }
@@ -69,10 +72,13 @@ export function updateCumulativeVAPEClaimed(event: ClaimEvent): void {
   );
   if (!cumulativeVAPEClaimed) {
     cumulativeVAPEClaimed = new CumulativeVAPEClaimed("CumulativeVAPEClaimed");
-    cumulativeVAPEClaimed.amount = event.params.amount;
+    cumulativeVAPEClaimed.amount = formatAmount(
+      event.params.amount.toBigDecimal(),
+      18
+    );
   } else {
     cumulativeVAPEClaimed.amount = cumulativeVAPEClaimed.amount.plus(
-      event.params.amount
+      formatAmount(event.params.amount.toBigDecimal(), 18)
     );
   }
   cumulativeVAPEClaimed.save();
@@ -86,10 +92,7 @@ export function updateVapePrice(event: TransferEvent): void {
   if (!cumulativeVPNDDeposited) {
     totalVPNDDeposited = BigInt.fromI32(0).toBigDecimal();
   } else {
-    totalVPNDDeposited = formatAmount(
-      cumulativeVPNDDeposited.amount.toBigDecimal(),
-      18
-    );
+    totalVPNDDeposited = cumulativeVPNDDeposited.amount;
   }
 
   let vapePrice5M = VapePrice5M.load(get5MinID(event).toString());
@@ -133,10 +136,7 @@ export function updateUSDMetrics(event: TransferEvent): void {
   if (!cumulativeVPNDDeposited) {
     totalVPNDDeposited = BigInt.fromI32(0).toBigDecimal();
   } else {
-    totalVPNDDeposited = formatAmount(
-      cumulativeVPNDDeposited.amount.toBigDecimal(),
-      18
-    );
+    totalVPNDDeposited = cumulativeVPNDDeposited.amount;
   }
   let usdMetrics = USDMetrics.load("USDMetrics");
   if (!usdMetrics) {

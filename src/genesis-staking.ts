@@ -21,6 +21,7 @@ import {
   updateCumulativeVAPEClaimed,
   updateVapePrice,
 } from "./helpers";
+import { formatAmount } from "./getters";
 
 export function getIdFromEventParams(
   txNonce: BigInt,
@@ -34,10 +35,12 @@ export function handleDeposit(event: DepositEvent): void {
   // Creating a new user if the user does not exist
   if (!user) {
     user = new User(event.params.account);
-    user.vpndLocked = event.params.amount;
-    user.vapeClaimed = BigInt.fromI32(0);
+    user.vpndLocked = formatAmount(event.params.amount.toBigDecimal(), 18);
+    user.vapeClaimed = BigInt.fromI32(0).toBigDecimal();
   } else {
-    user.vpndLocked = user.vpndLocked.plus(event.params.amount);
+    user.vpndLocked = user.vpndLocked.plus(
+      formatAmount(event.params.amount.toBigDecimal(), 18)
+    );
     user.vapeClaimed = user.vapeClaimed;
   }
 
@@ -48,7 +51,7 @@ export function handleDeposit(event: DepositEvent): void {
     getIdFromEventParams(event.transaction.nonce, event.address)
   );
   deposit.account = event.params.account;
-  deposit.amount = event.params.amount;
+  deposit.amount = formatAmount(event.params.amount.toBigDecimal(), 18);
   deposit.blockNumber = event.block.number;
   deposit.blockTimestamp = event.block.timestamp;
   deposit.transactionHash = event.transaction.hash;
@@ -66,10 +69,11 @@ export function handleClaim(event: ClaimEvent): void {
   // Added the if statement to avoid any blocker
   if (!user) {
     user = new User(event.params.account);
-    user.vapeClaimed = event.params.amount;
-    user.vpndLocked = BigInt.fromI32(0);
+    user.vapeClaimed = formatAmount(event.params.amount.toBigDecimal(), 18);
+    user.vpndLocked = BigInt.fromI32(0).toBigDecimal();
   } else {
-    user.vapeClaimed = event.params.amount;
+    // Claim all at once, hence not adding to the previous amount
+    user.vapeClaimed = formatAmount(event.params.amount.toBigDecimal(), 18);
     user.vpndLocked = user.vpndLocked;
   }
   user.save();
@@ -79,7 +83,7 @@ export function handleClaim(event: ClaimEvent): void {
   );
 
   claim.account = event.params.account;
-  claim.amount = event.params.amount;
+  claim.amount = formatAmount(event.params.amount.toBigDecimal(), 18);
   claim.blockTimestamp = event.block.timestamp;
   claim.save();
   updateCumulativeVAPEClaimed(event);
