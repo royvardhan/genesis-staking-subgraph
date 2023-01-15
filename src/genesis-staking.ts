@@ -20,6 +20,9 @@ import {
   updateCumulativeVPNDDeposited,
   updateCumulativeVAPEClaimed,
   updateVapePrice,
+  updateVPNDLocked12H,
+  updateVPNDLocked1H,
+  updateVPNDLocked6H,
 } from "./helpers";
 import { formatAmount } from "./getters";
 
@@ -59,6 +62,9 @@ export function handleDeposit(event: DepositEvent): void {
   deposit.save();
 
   updateCumulativeVPNDDeposited(event);
+  updateVPNDLocked1H(event);
+  updateVPNDLocked6H(event);
+  updateVPNDLocked12H(event);
   updateVPNDLocked24H(event);
 }
 

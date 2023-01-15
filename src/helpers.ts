@@ -7,6 +7,9 @@ import {
   VapePrice1D,
   VapePrice5M,
   VapePrice1H,
+  VPNDLocked1H,
+  VPNDLocked12H,
+  VPNDLocked6H,
 } from "../generated/schema";
 import {
   Deposit as DepositEvent,
@@ -20,6 +23,8 @@ import {
   getVPNDPriceInUSD,
   get5MinID,
   getHourlyID,
+  get12HID,
+  get6HID,
 } from "./getters";
 import { Transfer as TransferEvent, WAVAX } from "../generated/WAVAX/WAVAX";
 
@@ -41,8 +46,68 @@ export function updateVPNDLocked24H(event: DepositEvent): void {
     );
     vpndLocked24H.lastUpdated = event.block.timestamp;
     vpndLocked24H.amount = formatAmount(event.params.amount.toBigDecimal(), 18);
+  } else {
+    vpndLocked24H.lastUpdated = event.block.timestamp;
+    vpndLocked24H.amount = vpndLocked24H.amount.plus(
+      formatAmount(event.params.amount.toBigDecimal(), 18)
+    );
   }
   vpndLocked24H.save();
+}
+
+export function updateVPNDLocked1H(event: DepositEvent): void {
+  let vpndLocked1H = VPNDLocked1H.load(
+    getHourlyID(event.block.timestamp).toString()
+  );
+  if (!vpndLocked1H) {
+    vpndLocked1H = new VPNDLocked1H(
+      getHourlyID(event.block.timestamp).toString()
+    );
+    vpndLocked1H.lastUpdated = event.block.timestamp;
+    vpndLocked1H.amount = formatAmount(event.params.amount.toBigDecimal(), 18);
+  } else {
+    vpndLocked1H.lastUpdated = event.block.timestamp;
+    vpndLocked1H.amount = vpndLocked1H.amount.plus(
+      formatAmount(event.params.amount.toBigDecimal(), 18)
+    );
+  }
+  vpndLocked1H.save();
+}
+
+export function updateVPNDLocked6H(event: DepositEvent): void {
+  let vpndLocked6H = VPNDLocked6H.load(
+    get6HID(event.block.timestamp).toString()
+  );
+  if (!vpndLocked6H) {
+    vpndLocked6H = new VPNDLocked6H(get6HID(event.block.timestamp).toString());
+    vpndLocked6H.lastUpdated = event.block.timestamp;
+    vpndLocked6H.amount = formatAmount(event.params.amount.toBigDecimal(), 18);
+  } else {
+    vpndLocked6H.lastUpdated = event.block.timestamp;
+    vpndLocked6H.amount = vpndLocked6H.amount.plus(
+      formatAmount(event.params.amount.toBigDecimal(), 18)
+    );
+  }
+  vpndLocked6H.save();
+}
+
+export function updateVPNDLocked12H(event: DepositEvent): void {
+  let vpndLocked12H = VPNDLocked12H.load(
+    get12HID(event.block.timestamp).toString()
+  );
+  if (!vpndLocked12H) {
+    vpndLocked12H = new VPNDLocked12H(
+      get12HID(event.block.timestamp).toString()
+    );
+    vpndLocked12H.lastUpdated = event.block.timestamp;
+    vpndLocked12H.amount = formatAmount(event.params.amount.toBigDecimal(), 18);
+  } else {
+    vpndLocked12H.lastUpdated = event.block.timestamp;
+    vpndLocked12H.amount = vpndLocked12H.amount.plus(
+      formatAmount(event.params.amount.toBigDecimal(), 18)
+    );
+  }
+  vpndLocked12H.save();
 }
 
 export function updateCumulativeVPNDDeposited(event: DepositEvent): void {
@@ -105,9 +170,13 @@ export function updateVapePrice(event: TransferEvent): void {
     vapePrice5M.save();
   }
 
-  let vapePrice1H = VapePrice1H.load(getHourlyID(event).toString());
+  let vapePrice1H = VapePrice1H.load(
+    getHourlyID(event.block.timestamp).toString()
+  );
   if (!vapePrice1H) {
-    vapePrice1H = new VapePrice1H(getHourlyID(event).toString());
+    vapePrice1H = new VapePrice1H(
+      getHourlyID(event.block.timestamp).toString()
+    );
     vapePrice1H.lastUpdated = event.block.timestamp;
     vapePrice1H.price = calculateVapePrice(
       totalVPNDDeposited.times(getVPNDPriceInUSD())

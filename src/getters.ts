@@ -22,10 +22,21 @@ export function get5MinID(event: TransferEvent): number {
   return id + 1;
 }
 
-export function getHourlyID(event: TransferEvent): number {
-  let id = (event.block.timestamp.toI32() - DeployedBlockTimeStamp) / 3600;
+export function getHourlyID(timestamp: BigInt): number {
+  let id = (timestamp.toI32() - DeployedBlockTimeStamp) / 3600;
   return id + 1;
 }
+
+export function get12HID(timestamp: BigInt): number {
+  let id = (timestamp.toI32() - DeployedBlockTimeStamp) / 43200;
+  return id + 1;
+}
+
+export function get6HID(timestamp: BigInt): number {
+  let id = (timestamp.toI32() - DeployedBlockTimeStamp) / 21600;
+  return id + 1;
+}
+
 export function formatAmount(amount: BigDecimal, decimals: i32): BigDecimal {
   return amount.div(BIGINT_TEN.pow(decimals as u8).toBigDecimal());
 }

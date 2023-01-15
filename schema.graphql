@@ -35,6 +35,24 @@ type VPNDLocked24H @entity {
   amount: BigDecimal!
 }
 
+type VPNDLocked1H @entity {
+  id: String!
+  lastUpdated: BigInt!
+  amount: BigDecimal!
+}
+
+type VPNDLocked12H @entity {
+  id: String!
+  lastUpdated: BigInt!
+  amount: BigDecimal!
+}
+
+type VPNDLocked6H @entity {
+  id: String!
+  lastUpdated: BigInt!
+  amount: BigDecimal!
+}
+
 type CumulativeVPNDDeposited @entity {
   id: ID!
   amount: BigDecimal!
@@ -60,12 +78,6 @@ type VapePrice5M @entity {
 }
 
 type VapePrice1H @entity {
-  id: String!
-  price: BigDecimal!
-  lastUpdated: BigInt!
-}
-
-type VapePrice1D @entity {
   id: String!
   price: BigDecimal!
   lastUpdated: BigInt!

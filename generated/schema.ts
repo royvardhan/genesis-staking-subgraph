@@ -326,6 +326,156 @@ export class VPNDLocked24H extends Entity {
   }
 }
 
+export class VPNDLocked1H extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save VPNDLocked1H entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VPNDLocked1H must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("VPNDLocked1H", id.toString(), this);
+    }
+  }
+
+  static load(id: string): VPNDLocked1H | null {
+    return changetype<VPNDLocked1H | null>(store.get("VPNDLocked1H", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
+  }
+
+  get amount(): BigDecimal {
+    let value = this.get("amount");
+    return value!.toBigDecimal();
+  }
+
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
+  }
+}
+
+export class VPNDLocked12H extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save VPNDLocked12H entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VPNDLocked12H must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("VPNDLocked12H", id.toString(), this);
+    }
+  }
+
+  static load(id: string): VPNDLocked12H | null {
+    return changetype<VPNDLocked12H | null>(store.get("VPNDLocked12H", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
+  }
+
+  get amount(): BigDecimal {
+    let value = this.get("amount");
+    return value!.toBigDecimal();
+  }
+
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
+  }
+}
+
+export class VPNDLocked6H extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save VPNDLocked6H entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VPNDLocked6H must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("VPNDLocked6H", id.toString(), this);
+    }
+  }
+
+  static load(id: string): VPNDLocked6H | null {
+    return changetype<VPNDLocked6H | null>(store.get("VPNDLocked6H", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
+  }
+
+  get amount(): BigDecimal {
+    let value = this.get("amount");
+    return value!.toBigDecimal();
+  }
+
+  set amount(value: BigDecimal) {
+    this.set("amount", Value.fromBigDecimal(value));
+  }
+}
+
 export class CumulativeVPNDDeposited extends Entity {
   constructor(id: string) {
     super();
@@ -556,56 +706,6 @@ export class VapePrice1H extends Entity {
 
   static load(id: string): VapePrice1H | null {
     return changetype<VapePrice1H | null>(store.get("VapePrice1H", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get price(): BigDecimal {
-    let value = this.get("price");
-    return value!.toBigDecimal();
-  }
-
-  set price(value: BigDecimal) {
-    this.set("price", Value.fromBigDecimal(value));
-  }
-
-  get lastUpdated(): BigInt {
-    let value = this.get("lastUpdated");
-    return value!.toBigInt();
-  }
-
-  set lastUpdated(value: BigInt) {
-    this.set("lastUpdated", Value.fromBigInt(value));
-  }
-}
-
-export class VapePrice1D extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save VapePrice1D entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type VapePrice1D must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("VapePrice1D", id.toString(), this);
-    }
-  }
-
-  static load(id: string): VapePrice1D | null {
-    return changetype<VapePrice1D | null>(store.get("VapePrice1D", id));
   }
 
   get id(): string {
