@@ -735,3 +735,53 @@ export class VapePrice1H extends Entity {
     this.set("lastUpdated", Value.fromBigInt(value));
   }
 }
+
+export class VapePrice1D extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save VapePrice1D entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type VapePrice1D must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("VapePrice1D", id.toString(), this);
+    }
+  }
+
+  static load(id: string): VapePrice1D | null {
+    return changetype<VapePrice1D | null>(store.get("VapePrice1D", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get price(): BigDecimal {
+    let value = this.get("price");
+    return value!.toBigDecimal();
+  }
+
+  set price(value: BigDecimal) {
+    this.set("price", Value.fromBigDecimal(value));
+  }
+
+  get lastUpdated(): BigInt {
+    let value = this.get("lastUpdated");
+    return value!.toBigInt();
+  }
+
+  set lastUpdated(value: BigInt) {
+    this.set("lastUpdated", Value.fromBigInt(value));
+  }
+}

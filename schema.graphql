@@ -82,3 +82,9 @@ type VapePrice1H @entity {
   price: BigDecimal!
   lastUpdated: BigInt!
 }
+
+type VapePrice1D @entity {
+  id: String!
+  price: BigDecimal!
+  lastUpdated: BigInt!
+}
