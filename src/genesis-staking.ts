@@ -12,6 +12,7 @@ import {
   User,
   Claim,
   CumulativeVPNDDeposited,
+  UniqueWalletsParticipated,
 } from "../generated/schema";
 
 import {
@@ -23,6 +24,7 @@ import {
   updateVPNDLocked12H,
   updateVPNDLocked1H,
   updateVPNDLocked6H,
+  updateUniqueWallets,
 } from "./helpers";
 import { formatAmount } from "./getters";
 
@@ -40,6 +42,7 @@ export function handleDeposit(event: DepositEvent): void {
     user = new User(event.params.account);
     user.vpndLocked = formatAmount(event.params.amount.toBigDecimal(), 18);
     user.vapeClaimed = BigInt.fromI32(0).toBigDecimal();
+    updateUniqueWallets();
   } else {
     user.vpndLocked = user.vpndLocked.plus(
       formatAmount(event.params.amount.toBigDecimal(), 18)

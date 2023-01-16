@@ -88,3 +88,8 @@ type VapePrice1D @entity {
   price: BigDecimal!
   lastUpdated: BigInt!
 }
+
+type UniqueWalletsParticipated @entity {
+  id: String!
+  total: Int!
+}

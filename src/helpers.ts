@@ -10,6 +10,8 @@ import {
   VPNDLocked1H,
   VPNDLocked12H,
   VPNDLocked6H,
+  UniqueWalletsParticipated,
+  User,
 } from "../generated/schema";
 import {
   Deposit as DepositEvent,
@@ -231,4 +233,18 @@ export function updateUSDMetrics(event: TransferEvent): void {
     usdMetrics.lastUpdated = event.block.timestamp;
   }
   usdMetrics.save();
+}
+
+export function updateUniqueWallets(): void {
+  let uniqueWallets = UniqueWalletsParticipated.load(
+    "UniqueWalletsParticipated"
+  );
+  if (!uniqueWallets) {
+    uniqueWallets = new UniqueWalletsParticipated("UniqueWalletsParticipated");
+    uniqueWallets.total = 1;
+  } else {
+    uniqueWallets.total = uniqueWallets.total + 1;
+  }
+
+  uniqueWallets.save();
 }
